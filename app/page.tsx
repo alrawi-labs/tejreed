@@ -2,8 +2,10 @@ import WaveBackground from '@/components/WaveBackground'
 import Particles from '@/components/Particles'
 import Navbar from '@/components/Navbar'
 import UploadZone from '@/components/UploadZone'
-import StatsBar from '@/components/StatsBar'
 import Footer from '@/components/Footer'
+import HowItWorks from '@/components/HowItWorks'
+import FAQ from '@/components/FAQ'
+import Contact from '@/components/Contact'
 
 export default function Home() {
   return (
@@ -24,9 +26,9 @@ export default function Home() {
 
       <Navbar />
 
-      <main className="relative z-10 flex flex-col min-h-screen pt-16">
+      <main className="relative z-10 flex flex-col min-h-screen pt-16" >
         {/* Hero */}
-        <section className="flex-1 flex flex-col items-center justify-center px-6 py-16">
+        <section id="upload" className="flex-1 flex flex-col items-center justify-center px-6 py-16">
           {/* Badge */}
           <div
             className="flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#00D4FF]/20 bg-[#00D4FF]/5 mb-8"
@@ -78,10 +80,11 @@ export default function Home() {
             className="w-full max-w-2xl"
             style={{ animation: 'slideUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.25s both' }}
           >
-            <StatsBar />
           </div>
         </section>
-
+<HowItWorks />
+<FAQ />
+<Contact />
         <Footer />
       </main>
     </div>

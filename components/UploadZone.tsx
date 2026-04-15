@@ -90,7 +90,7 @@ export default function UploadZone() {
 
       if (!response.ok) {
         const err = await response.json()
-        throw new Error(err.error || 'İşlem başarısız.')
+        throw new Error(err.error || 'Operation failed.')
       }
 
       const contentType = response.headers.get('content-type') || ''
@@ -104,7 +104,7 @@ export default function UploadZone() {
         setResult({ type: 'audio', vocals: url })
       }
     } catch (err: any) {
-      setError(err.message || 'Bir hata oluştu.')
+      setError(err.message || 'An error occurred.')
     } finally {
       setIsProcessing(false)
       eventSourceRef.current?.close()
@@ -140,11 +140,19 @@ export default function UploadZone() {
     const fd = new FormData()
     fd.append('url', youtubeUrl)
 
+    // Guarantee a minimum 5-second loading state
+    const minWait = new Promise(resolve => setTimeout(resolve, 5000))
+
     try {
-      const response = await fetch(`${API_BASE}/api/process-youtube`, { method: 'POST', body: fd })
+      const [response] = await Promise.all([
+        fetch(`${API_BASE}/api/process-youtube`, { method: 'POST', body: fd }),
+        minWait,
+      ])
+
       if (!response.ok) {
-        const err = await response.json()
-        throw new Error(err.error || 'İşlem başarısız.')
+        await minWait
+        setError('youtube_blocked')
+        return
       }
 
       const contentType = response.headers.get('content-type') || ''
@@ -157,7 +165,8 @@ export default function UploadZone() {
         setResult({ type: 'audio', vocals: url })
       }
     } catch (err: any) {
-      setError(err.message || 'Bir hata oluştu.')
+      await minWait
+      setError('youtube_blocked')
     } finally {
       setIsProcessing(false)
       eventSourceRef.current?.close()
@@ -280,7 +289,6 @@ export default function UploadZone() {
           </div>
         )}
 
-        {/* Waveform animation */}
         <div className="flex items-center justify-center gap-1 mt-8 h-12">
           {Array.from({ length: 20 }).map((_, i) => (
             <div
@@ -335,7 +343,6 @@ export default function UploadZone() {
             onChange={handleFileInput}
           />
 
-          {/* Icon */}
           <div className="relative inline-flex items-center justify-center w-24 h-24 mb-6 mx-auto animate-float">
             <div className="absolute inset-0 rounded-2xl bg-[#0066FF]/10 blur-xl" />
             <div className="relative w-full h-full rounded-2xl border border-[#1A2640] bg-[#0D1421] flex items-center justify-center">
@@ -417,10 +424,55 @@ export default function UploadZone() {
               </div>
             </div>
           )}
+
+          {/* YouTube blocked error */}
+          {error === 'youtube_blocked' && (
+            <div className="p-5 rounded-xl bg-[#0D1421] border border-yellow-500/30 space-y-3">
+              <div className="flex items-center gap-2">
+                <span className="text-lg">⚠️</span>
+                <p className="text-sm text-yellow-400 font-medium">
+                  YouTube did not allow us to download this video automatically.
+                </p>
+              </div>
+
+              {ytInfo && (
+                <div className="flex gap-3 p-3 rounded-xl bg-[#080C14] border border-[#1A2640]">
+                  {ytInfo.thumbnail && (
+                    <img src={ytInfo.thumbnail} alt="" className="w-20 h-14 object-cover rounded-lg flex-shrink-0" />
+                  )}
+                  <div className="min-w-0">
+                    <p className="text-sm text-white font-medium truncate">{ytInfo.title}</p>
+                    <p className="text-xs text-gray-500 mt-0.5">{ytInfo.uploader}</p>
+                  </div>
+                </div>
+              )}
+
+              <p className="text-xs text-gray-400">
+                You can download the video yourself and upload it via the <strong className="text-white">Upload File</strong> tab.
+              </p>
+
+              <a
+                href={`https://en1.savefrom.net/1-youtube-video-downloader-14hf/#${youtubeUrl}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-yellow-500/10 border border-yellow-500/40 text-yellow-400 hover:bg-yellow-500/20 transition-all text-sm font-display tracking-wider"
+              >
+                ⬇️ Download on SaveFrom.net
+              </a>
+
+              <button
+                onClick={() => { setError(null); setTab('upload') }}
+                className="w-full py-2.5 rounded-xl border border-[#1A2640] text-gray-400 hover:text-white hover:border-[#00D4FF]/40 transition-all text-sm font-display tracking-wider"
+              >
+                UPLOAD FILE →
+              </button>
+            </div>
+          )}
         </div>
       )}
 
-      {error && (
+      {/* Generic errors (non-youtube) */}
+      {error && error !== 'youtube_blocked' && (
         <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm">
           ❌ {error}
         </div>

@@ -2,50 +2,82 @@
 
 import { useState } from 'react'
 
+const NAV_LINKS = [
+  { label: 'Upload', href: '#upload' },
+  { label: 'How it Works', href: '#how-it-works' },
+  { label: 'FAQ',          href: '#faq' },
+  { label: 'Contact Us',   href: '#contact' },
+]
+
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
+
+  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault()
+    const target = document.querySelector(href)
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+    setMobileOpen(false)
+  }
+
+  const handleGetStarted = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    const target = document.querySelector('#upload')
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }
+    setMobileOpen(false)
+  }
 
   return (
     <nav className="nav-blur fixed top-0 left-0 right-0 z-50">
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
-        <div className="flex items-center gap-3">
+        <a
+          href="#"
+          onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+          className="flex items-center gap-3 group"
+        >
           <div className="relative w-9 h-9">
             <div className="absolute inset-0.5 rounded-lg bg-[#080C14] flex items-center justify-center">
-                <img src="tejreed.png" alt="" className='w-100 h-100'  />
-
+              <img src="tejreed.png" alt="Tejreed logo" className="w-full h-full object-contain" />
             </div>
           </div>
-          <span className="logo-text text-xl font-display font-bold tracking-wider">TEJREED</span>
-        </div>
+          <span className="logo-text text-xl font-display font-bold tracking-wider group-hover:opacity-80 transition-opacity">
+            TEJREED
+          </span>
+        </a>
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
-          {['How it Works', 'Pricing', 'FAQ', 'Contact Us'].map((item) => (
+          {NAV_LINKS.map(({ label, href }) => (
             <a
-              key={item}
-              href="#"
+              key={label}
+              href={href}
+              onClick={(e) => handleScroll(e, href)}
               className="text-sm text-gray-400 hover:text-white transition-colors duration-200 tracking-wide"
             >
-              {item}
+              {label}
             </a>
           ))}
         </div>
 
         {/* CTA */}
-        <div className="hidden md:flex items-center gap-4">
-          <button className="btn-glow px-5 py-2 rounded-lg text-sm font-display font-semibold tracking-wider text-white">
+        <div className="hidden md:flex items-center">
+          <button
+            onClick={handleGetStarted}
+            className="btn-glow px-5 py-2 rounded-lg text-sm font-display font-semibold tracking-wider text-white"
+          >
             <span>GET STARTED</span>
           </button>
-          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#00D4FF] to-[#7B2FFF] flex items-center justify-center text-xs font-bold cursor-pointer">
-            U
-          </div>
         </div>
 
         {/* Mobile toggle */}
         <button
           className="md:hidden text-gray-400 hover:text-white"
           onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Toggle menu"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             {mobileOpen
@@ -59,10 +91,20 @@ export default function Navbar() {
       {/* Mobile menu */}
       {mobileOpen && (
         <div className="md:hidden border-t border-[#1A2640] bg-[#080C14]/95 backdrop-blur-xl px-6 py-4 flex flex-col gap-4">
-          {['How it Works', 'Pricing', 'FAQ', 'Contact Us'].map((item) => (
-            <a key={item} href="#" className="text-sm text-gray-400 hover:text-white transition-colors">{item}</a>
+          {NAV_LINKS.map(({ label, href }) => (
+            <a
+              key={label}
+              href={href}
+              onClick={(e) => handleScroll(e, href)}
+              className="text-sm text-gray-400 hover:text-white transition-colors"
+            >
+              {label}
+            </a>
           ))}
-          <button className="btn-glow mt-2 w-full py-2.5 rounded-lg text-sm font-display font-semibold tracking-wider text-white">
+          <button
+            onClick={handleGetStarted}
+            className="btn-glow mt-2 w-full py-2.5 rounded-lg text-sm font-display font-semibold tracking-wider text-white"
+          >
             <span>GET STARTED</span>
           </button>
         </div>
