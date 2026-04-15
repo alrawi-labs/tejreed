@@ -2,7 +2,7 @@
 
 import { useState, useRef, useCallback, useEffect } from 'react'
 
-const API_BASE = 'https://tejreed-backend.onrender.com'
+const API_BASE = 'https://yasir723-tejreed.hf.space'
 
 interface ProgressStep {
   icon: string
