@@ -1,32 +1,34 @@
 'use client'
 
 import { useState } from 'react'
+import { useLang } from '@/i18n/LangContext'
+import LanguageSwitcher from './LanguageSwitcher'
 
-const NAV_LINKS = [
-  { label: 'Upload', href: '#upload' },
-  { label: 'How it Works', href: '#how-it-works' },
-  { label: 'FAQ',          href: '#faq' },
-  { label: 'Contact Us',   href: '#contact' },
-]
+
+
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const { t } = useLang()
+  const { lang } = useLang(); 
+  const isRTL = lang === 'ar' || lang === 'fa';
+  const NAV_LINKS = [
+    { label: t.nav.upload,      href: '#upload' },
+    { label: t.nav.howItWorks,  href: '#how-it-works' },
+    { label: t.nav.faq,         href: '#faq' },
+    { label: t.nav.contact,     href: '#contact' },
+  ]
 
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault()
     const target = document.querySelector(href)
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' })
     setMobileOpen(false)
   }
 
   const handleGetStarted = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
-    const target = document.querySelector('#upload')
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'center' })
-    }
+    document.querySelector('#upload')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
     setMobileOpen(false)
   }
 
@@ -35,25 +37,29 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
         <a
-          href="#"
-          onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
-          className="flex items-center gap-3 group"
-        >
-          <div className="relative w-9 h-9">
-            <div className="absolute inset-0.5 rounded-lg bg-[#080C14] flex items-center justify-center">
-              <img src="tejreed.png" alt="Tejreed logo" className="w-full h-full object-contain" />
-            </div>
-          </div>
-          <span className="logo-text text-xl font-display font-bold tracking-wider group-hover:opacity-80 transition-opacity">
-            TEJREED
-          </span>
-        </a>
+  href="#"
+  onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+  className="flex items-center gap-3 group"
+>
+  <div className="relative w-9 h-9">
+    <div className="absolute inset-0.5 rounded-lg bg-[#080C14] flex items-center justify-center">
+      <img src="tejreed.png" alt="Tejreed logo" className="w-full h-full object-contain" />
+    </div>
+  </div>
+  
+  <span className={`
+    logo-text text-xl font-bold transition-opacity group-hover:opacity-80
+    ${isRTL ? 'font-ruqaa text-2xl' : 'font-display tracking-wider'}
+  `}>
+    {isRTL ? 'تجريد' : 'TEJREED'}
+  </span>
+</a>
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
           {NAV_LINKS.map(({ label, href }) => (
             <a
-              key={label}
+              key={href}
               href={href}
               onClick={(e) => handleScroll(e, href)}
               className="text-sm text-gray-400 hover:text-white transition-colors duration-200 tracking-wide"
@@ -63,13 +69,14 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* CTA */}
-        <div className="hidden md:flex items-center">
+        {/* Right side: Language switcher + CTA */}
+        <div className="hidden md:flex items-center gap-3">
+          <LanguageSwitcher />
           <button
             onClick={handleGetStarted}
             className="btn-glow px-5 py-2 rounded-lg text-sm font-display font-semibold tracking-wider text-white"
           >
-            <span>GET STARTED</span>
+            <span>{t.nav.getStarted}</span>
           </button>
         </div>
 
@@ -93,7 +100,7 @@ export default function Navbar() {
         <div className="md:hidden border-t border-[#1A2640] bg-[#080C14]/95 backdrop-blur-xl px-6 py-4 flex flex-col gap-4">
           {NAV_LINKS.map(({ label, href }) => (
             <a
-              key={label}
+              key={href}
               href={href}
               onClick={(e) => handleScroll(e, href)}
               className="text-sm text-gray-400 hover:text-white transition-colors"
@@ -101,11 +108,12 @@ export default function Navbar() {
               {label}
             </a>
           ))}
+          <LanguageSwitcher />
           <button
             onClick={handleGetStarted}
             className="btn-glow mt-2 w-full py-2.5 rounded-lg text-sm font-display font-semibold tracking-wider text-white"
           >
-            <span>GET STARTED</span>
+            <span>{t.nav.getStarted}</span>
           </button>
         </div>
       )}

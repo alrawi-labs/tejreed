@@ -1,9 +1,15 @@
+'use client'
+
+import { useLang } from '@/i18n/LangContext'
+
 export default function Footer() {
+  const { t } = useLang()
+
   return (
     <footer className="border-t border-[#1A2640] py-6 px-6">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
         <p className="text-gray-600 text-xs tracking-wider">
-          © 2024 Tejreed. All Rights Reserved.
+          {t.footer.rights}
         </p>
         <div className="flex items-center gap-5">
           {/* Instagram */}

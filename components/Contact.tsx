@@ -1,6 +1,8 @@
 'use client'
 
-const LINKS = [
+import { useLang } from '@/i18n/LangContext'
+
+const LINK_DATA = [
   {
     label: 'LinkedIn',
     handle: 'yasir-alrawi',
@@ -11,7 +13,6 @@ const LINKS = [
       </svg>
     ),
     color: '#0A66C2',
-    description: 'Connect professionally',
   },
   {
     label: 'GitHub',
@@ -23,78 +24,72 @@ const LINKS = [
       </svg>
     ),
     color: '#00D4FF',
-    description: 'Explore the source',
   },
 ]
 
 export default function Contact() {
+  const { t } = useLang()
+  const contact = t.contact
+
   return (
     <section id="contact" className="relative py-32 overflow-hidden">
-      {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[300px] rounded-full bg-[#0066FF]/4 blur-[100px]" />
       </div>
 
       <div className="max-w-4xl mx-auto px-6 relative">
-        {/* Heading */}
         <div className="text-center mb-16">
-          <p className="text-xs font-display tracking-[0.3em] text-[#00D4FF] mb-4 uppercase">Get In Touch</p>
+          <p className="text-xs font-display tracking-[0.3em] text-[#00D4FF] mb-4 uppercase">{contact.tag}</p>
           <h2 className="font-display text-4xl md:text-5xl font-bold text-white mb-5 tracking-tight">
-            Contact Us
+            {contact.title}
           </h2>
           <p className="text-gray-400 text-lg max-w-md mx-auto leading-relaxed">
-            Have a question, found a bug, or want to collaborate? Reach out — we'd love to hear from you.
+            {contact.subtitle}
           </p>
         </div>
 
-        {/* Cards */}
         <div className="grid sm:grid-cols-2 gap-5 max-w-xl mx-auto">
-          {LINKS.map(({ label, handle, href, icon, color, description }) => (
-            <a
-              key={label}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group relative flex items-center gap-4 p-6 rounded-2xl border border-[#1A2640] bg-[#0D1421]/60
-                hover:border-[#00D4FF]/30 transition-all duration-300 overflow-hidden"
-            >
-              {/* Hover glow */}
-              <div
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                style={{ background: `radial-gradient(ellipse at 20% 50%, ${color}10 0%, transparent 70%)` }}
-              />
-
-              {/* Icon */}
-              <div
-                className="relative flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center transition-colors duration-300"
-                style={{ backgroundColor: `${color}18` }}
+          {LINK_DATA.map(({ label, handle, href, icon, color }, idx) => {
+            const desc = contact.links[idx]?.description ?? ''
+            return (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative flex items-center gap-4 p-6 rounded-2xl border border-[#1A2640] bg-[#0D1421]/60
+                  hover:border-[#00D4FF]/30 transition-all duration-300 overflow-hidden"
               >
-                <span style={{ color }} className="group-hover:scale-110 transition-transform duration-300 block">
-                  {icon}
-                </span>
-              </div>
-
-              {/* Text */}
-              <div className="relative min-w-0">
-                <p className="text-white font-display font-semibold text-sm tracking-wide">{label}</p>
-                <p className="text-gray-500 text-xs mt-0.5 truncate">@{handle}</p>
-                <p className="text-gray-600 text-xs mt-1">{description}</p>
-              </div>
-
-              {/* Arrow */}
-              <div className="relative ml-auto flex-shrink-0 text-gray-600 group-hover:text-[#00D4FF] group-hover:translate-x-0.5 transition-all duration-300">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                </svg>
-              </div>
-            </a>
-          ))}
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  style={{ background: `radial-gradient(ellipse at 20% 50%, ${color}10 0%, transparent 70%)` }}
+                />
+                <div
+                  className="relative flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center transition-colors duration-300"
+                  style={{ backgroundColor: `${color}18` }}
+                >
+                  <span style={{ color }} className="group-hover:scale-110 transition-transform duration-300 block">
+                    {icon}
+                  </span>
+                </div>
+                <div className="relative min-w-0">
+                  <p className="text-white font-display font-semibold text-sm tracking-wide">{label}</p>
+                  <p className="text-gray-500 text-xs mt-0.5 truncate">@{handle}</p>
+                  <p className="text-gray-600 text-xs mt-1">{desc}</p>
+                </div>
+                <div className="relative ml-auto flex-shrink-0 text-gray-600 group-hover:text-[#00D4FF] group-hover:translate-x-0.5 transition-all duration-300">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </div>
+              </a>
+            )
+          })}
         </div>
 
-        {/* Divider + footer note */}
         <div className="mt-20 pt-10 border-t border-[#1A2640] text-center">
           <p className="text-xs text-gray-600 tracking-wide">
-            © {new Date().getFullYear()} Tejreed — Built with ❤️ by{' '}
+            © {new Date().getFullYear()} Tejreed — {contact.builtBy}{' '}
             <a
               href="https://www.linkedin.com/in/yasir-alrawi/"
               target="_blank"

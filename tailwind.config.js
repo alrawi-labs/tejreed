@@ -10,6 +10,8 @@ module.exports = {
       fontFamily: {
         display: ['var(--font-orbitron)', 'monospace'],
         body: ['var(--font-space-mono)', 'monospace'],
+        arabic: ['var(--font-noto-kufi-arabic)'],
+        ruqaa: ['var(--font-aref-ruqaa)'],
       },
       colors: {
         brand: {

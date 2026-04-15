@@ -1,14 +1,13 @@
+'use client'
+
+import { useLang } from '@/i18n/LangContext'
+
 export default function StatsBar() {
-  const stats = [
-    { value: '2M+', label: 'FILES PROCESSED' },
-    { value: '99.2%', label: 'ACCURACY RATE' },
-    { value: '<30s', label: 'AVERAGE TIME' },
-    { value: '4K', label: 'ACTIVE USERS' },
-  ]
+  const { t } = useLang()
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12">
-      {stats.map((stat, i) => (
+      {t.stats.map((stat, i) => (
         <div
           key={i}
           className="text-center p-4 rounded-xl border border-[#1A2640] bg-[#0D1421]/60 backdrop-blur-sm"
