@@ -219,7 +219,7 @@ const t = {
 
     // ── Footer (Footer.tsx) ──────────────────────────────
     footer: {
-      rights: "© 2024 Tejreed. All Rights Reserved.",
+      rights: "© 2026 Tejreed. All Rights Reserved.",
     },
 
     // ── Music Remover page (/music-remover) ─────────────
@@ -776,7 +776,7 @@ const t = {
       builtBy: "❤️ ile yapıldı,",
     },
     footer: {
-      rights: "© 2024 Tejreed. Tüm Hakları Saklıdır.",
+      rights: "© 2026 Tejreed. Tüm Hakları Saklıdır.",
     },
     musicRemover: {
       badge: "AI MÜZİK SİLİCİ",
@@ -1325,7 +1325,7 @@ const t = {
       ],
       builtBy: "صُنع بـ ❤️ على يد",
     },
-    footer: { rights: "© 2024 تجريد. جميع الحقوق محفوظة." },
+    footer: { rights: "© 2026 تجريد. جميع الحقوق محفوظة." },
     musicRemover: {
       badge: "مزيل الموسيقى بالذكاء الاصطناعي",
       title: "مزيل الموسيقى",
@@ -2422,7 +2422,7 @@ const t = {
       ],
       builtBy: "Fait avec ❤️ par",
     },
-    footer: { rights: "© 2024 Tejreed. Tous droits réservés." },
+    footer: { rights: "© 2026 Tejreed. Tous droits réservés." },
     musicRemover: {
       badge: "SUPPRESSEUR DE MUSIQUE IA",
       title: "SUPPRESSEUR DE MUSIQUE",
@@ -2991,7 +2991,7 @@ const t = {
       ],
       builtBy: "Gebaut mit ❤️ von",
     },
-    footer: { rights: "© 2024 Tejreed. Alle Rechte vorbehalten." },
+    footer: { rights: "© 2026 Tejreed. Alle Rechte vorbehalten." },
     musicRemover: {
       badge: "KI-MUSIK-ENTFERNER",
       title: "MUSIK ENTFERNEN",
@@ -3557,7 +3557,7 @@ const t = {
       ],
       builtBy: "Hecho con ❤️ por",
     },
-    footer: { rights: "© 2024 Tejreed. Todos los derechos reservados." },
+    footer: { rights: "© 2026 Tejreed. Todos los derechos reservados." },
     musicRemover: {
       badge: "ELIMINADOR DE MÚSICA IA",
       title: "ELIMINADOR DE MÚSICA",
@@ -4122,7 +4122,7 @@ const t = {
       ],
       builtBy: "Fatto con ❤️ da",
     },
-    footer: { rights: "© 2024 Tejreed. Tutti i diritti riservati." },
+    footer: { rights: "© 2026 Tejreed. Tutti i diritti riservati." },
     musicRemover: {
       badge: "RIMOZIONE MUSICA IA",
       title: "RIMOZIONE MUSICA",
