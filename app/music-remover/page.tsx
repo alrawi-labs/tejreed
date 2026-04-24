@@ -9,7 +9,7 @@ import { useLang } from "@/i18n/LangContext";
 type Tab   = "file" | "youtube";
 type Stage = "idle" | "processing" | "done" | "error";
 
-const API_BASE = "http://127.0.0.1:5000";
+const API_BASE = "https://yasir723-tejreed.hf.space";
 
 interface ProgressStep {
   icon:     string;
