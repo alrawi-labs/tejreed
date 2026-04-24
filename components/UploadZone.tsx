@@ -3,7 +3,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import { useLang } from '@/i18n/LangContext'
 
-const API_BASE = 'https://yasir723-tejreed.hf.space'
+const API_BASE = 'http://127.0.0.1:5000'
 
 interface ProgressStep {
   icon: string
@@ -18,7 +18,18 @@ interface Result {
   zip?: string
 }
 
-type TabType = 'upload' | 'youtube'
+interface TranscribeResult {
+  language: string
+  text: string
+  segments: { id: number; start: number; end: number; text: string }[]
+  downloads: {
+    txt: string
+    srt: string
+    json: string
+  }
+}
+
+type TabType = 'upload' | 'youtube' | 'transcribe'
 
 export default function UploadZone() {
   const { t } = useLang()
@@ -35,7 +46,18 @@ export default function UploadZone() {
   const [ytInfo, setYtInfo] = useState<any>(null)
   const [ytLoading, setYtLoading] = useState(false)
 
+  // Transcribe state
+  const [transcribeTab, setTranscribeTab] = useState<'file' | 'youtube'>('file')
+  const [transcribeYtUrl, setTranscribeYtUrl] = useState('')
+  const [transcribeYtInfo, setTranscribeYtInfo] = useState<any>(null)
+  const [transcribeYtLoading, setTranscribeYtLoading] = useState(false)
+  const [transcribeResult, setTranscribeResult] = useState<TranscribeResult | null>(null)
+  const [transcribeLang, setTranscribeLang] = useState('')
+  const [copiedText, setCopiedText] = useState(false)
+  const [activeSegment, setActiveSegment] = useState<number | null>(null)
+
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const transcribeFileInputRef = useRef<HTMLInputElement>(null)
   const eventSourceRef = useRef<EventSource | null>(null)
 
   const connectSSE = useCallback(() => {
@@ -108,6 +130,17 @@ export default function UploadZone() {
     setYtLoading(false)
   }
 
+  const fetchTranscribeYtInfo = async (url: string) => {
+    if (!url.trim()) return
+    setTranscribeYtInfo(null); setTranscribeYtLoading(true)
+    try {
+      const fd = new FormData(); fd.append('url', url)
+      const res = await fetch(`${API_BASE}/api/get-youtube-info`, { method: 'POST', body: fd })
+      if (res.ok) setTranscribeYtInfo(await res.json())
+    } catch {}
+    setTranscribeYtLoading(false)
+  }
+
   const handleYoutubeProcess = async () => {
     if (!youtubeUrl.trim()) return
     setError(null); setResult(null); setIsProcessing(true); setProgress(0); setCurrentStep(null)
@@ -135,13 +168,80 @@ export default function UploadZone() {
     }
   }
 
+  // ── Transcribe handlers ──────────────────────────────────────────────────
+
+  const handleTranscribeFile = async (file: File) => {
+    setError(null); setTranscribeResult(null); setIsProcessing(true); setProgress(0); setCurrentStep(null)
+    connectSSE()
+    const fd = new FormData()
+    fd.append('file', file)
+    if (transcribeLang) fd.append('language', transcribeLang)
+    try {
+      const response = await fetch(`${API_BASE}/api/transcribe`, { method: 'POST', body: fd })
+      if (!response.ok) {
+        const err = await response.json()
+        throw new Error(err.error || 'Transcription failed.')
+      }
+      const data = await response.json()
+      setTranscribeResult(data)
+    } catch (err: any) {
+      setError(err.message || 'An error occurred.')
+    } finally {
+      setIsProcessing(false)
+      eventSourceRef.current?.close()
+    }
+  }
+
+  const handleTranscribeFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files
+    if (files && files.length > 0) handleTranscribeFile(files[0])
+  }
+
+  const handleTranscribeYoutube = async () => {
+    if (!transcribeYtUrl.trim()) return
+    setError(null); setTranscribeResult(null); setIsProcessing(true); setProgress(0); setCurrentStep(null)
+    connectSSE()
+    const fd = new FormData()
+    fd.append('url', transcribeYtUrl)
+    if (transcribeLang) fd.append('language', transcribeLang)
+    try {
+      const response = await fetch(`${API_BASE}/api/transcribe-youtube`, { method: 'POST', body: fd })
+      if (!response.ok) {
+        const err = await response.json()
+        throw new Error(err.error || 'Transcription failed.')
+      }
+      const data = await response.json()
+      setTranscribeResult(data)
+    } catch (err: any) {
+      setError(err.message || 'An error occurred.')
+    } finally {
+      setIsProcessing(false)
+      eventSourceRef.current?.close()
+    }
+  }
+
+  const handleCopyText = () => {
+    if (!transcribeResult) return
+    navigator.clipboard.writeText(transcribeResult.text)
+    setCopiedText(true)
+    setTimeout(() => setCopiedText(false), 2000)
+  }
+
+  const formatTime = (seconds: number) => {
+    const m = Math.floor(seconds / 60)
+    const s = Math.floor(seconds % 60)
+    return `${m}:${String(s).padStart(2, '0')}`
+  }
+
   const reset = () => {
     setResult(null); setError(null); setProgress(0); setCurrentStep(null)
     setYoutubeUrl(''); setYtInfo(null)
+    setTranscribeResult(null); setTranscribeYtUrl(''); setTranscribeYtInfo(null)
     if (fileInputRef.current) fileInputRef.current.value = ''
+    if (transcribeFileInputRef.current) transcribeFileInputRef.current.value = ''
   }
 
-  // --- RESULT VIEW ---
+  // ── RESULT VIEW (vocal separation) ──────────────────────────────────────
   if (result) {
     return (
       <div className="result-card rounded-2xl p-8 animate-fade-in">
@@ -174,7 +274,6 @@ export default function UploadZone() {
               </svg>
             </a>
           )}
-
           {result.vocal_video && (
             <a href={`${API_BASE}${result.vocal_video}`} download="vocal_video.mp4"
               className="flex items-center justify-between p-4 rounded-xl border border-[#1A2640] hover:border-[#00D4FF]/40 transition-all group">
@@ -191,7 +290,6 @@ export default function UploadZone() {
               </svg>
             </a>
           )}
-
           {result.zip && (
             <a href={`${API_BASE}${result.zip}`} download="tejreed_output.zip"
               className="flex items-center justify-between p-4 rounded-xl border border-[#00D4FF]/20 bg-[#00D4FF]/5 hover:border-[#00D4FF]/40 transition-all group">
@@ -218,7 +316,98 @@ export default function UploadZone() {
     )
   }
 
-  // --- PROCESSING VIEW ---
+  // ── TRANSCRIBE RESULT VIEW ───────────────────────────────────────────────
+  if (transcribeResult) {
+    return (
+      <div className="result-card rounded-2xl p-6 animate-fade-in space-y-5">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center">
+              <svg className="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+            </div>
+            <div>
+              <h3 className="font-display text-base font-bold text-white">{u.transcribeCompleteTitle}</h3>
+              <p className="text-xs text-gray-500 mt-0.5">
+                {u.transcribeDetectedLang}: <span className="text-emerald-400 uppercase font-mono">{transcribeResult.language}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Full text */}
+        <div className="relative">
+          <div className="p-4 rounded-xl bg-[#080C14] border border-[#1A2640] max-h-40 overflow-y-auto">
+            <p className="text-sm text-gray-300 leading-relaxed font-body whitespace-pre-wrap">
+              {transcribeResult.text}
+            </p>
+          </div>
+          <button
+            onClick={handleCopyText}
+            className="absolute top-3 right-3 p-1.5 rounded-lg bg-[#1A2640] hover:bg-[#00D4FF]/20 border border-[#1A2640] hover:border-[#00D4FF]/40 transition-all group"
+            title="Copy"
+          >
+            {copiedText
+              ? <svg className="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+              : <svg className="w-3.5 h-3.5 text-gray-500 group-hover:text-[#00D4FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+            }
+          </button>
+        </div>
+
+        {/* Segments */}
+        {transcribeResult.segments.length > 0 && (
+          <div>
+            <p className="text-xs text-gray-500 mb-2 font-display tracking-wider">{u.transcribeSegments}</p>
+            <div className="space-y-1 max-h-48 overflow-y-auto pr-1">
+              {transcribeResult.segments.map((seg) => (
+                <div
+                  key={seg.id}
+                  onClick={() => setActiveSegment(activeSegment === seg.id ? null : seg.id)}
+                  className={`flex gap-3 p-2.5 rounded-lg cursor-pointer transition-all ${
+                    activeSegment === seg.id
+                      ? 'bg-[#00D4FF]/10 border border-[#00D4FF]/30'
+                      : 'hover:bg-[#0D1421] border border-transparent'
+                  }`}
+                >
+                  <span className="text-xs text-[#00D4FF] font-mono shrink-0 mt-0.5 w-20">
+                    {formatTime(seg.start)} → {formatTime(seg.end)}
+                  </span>
+                  <span className="text-xs text-gray-300 leading-relaxed">{seg.text}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Downloads */}
+        <div>
+          <p className="text-xs text-gray-500 mb-2 font-display tracking-wider">{u.transcribeDownload}</p>
+          <div className="grid grid-cols-3 gap-2">
+            {[
+              { fmt: 'txt', label: 'TXT', icon: '📄', url: transcribeResult.downloads.txt },
+              { fmt: 'srt', label: 'SRT', icon: '🎬', url: transcribeResult.downloads.srt },
+              { fmt: 'json', label: 'JSON', icon: '{ }', url: transcribeResult.downloads.json },
+            ].map(({ fmt, label, icon, url }) => (
+              <a key={fmt} href={url} download={`transcription.${fmt}`}
+                className="flex flex-col items-center gap-1.5 p-3 rounded-xl border border-[#1A2640] hover:border-[#00D4FF]/40 bg-[#080C14] hover:bg-[#00D4FF]/5 transition-all group">
+                <span className="text-base">{icon}</span>
+                <span className="text-xs font-mono text-gray-400 group-hover:text-[#00D4FF] transition-colors">{label}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <button onClick={reset}
+          className="w-full py-3 rounded-xl border border-[#1A2640] text-gray-400 hover:text-white hover:border-[#00D4FF]/40 transition-all text-sm font-display tracking-wider">
+          {u.processAnother}
+        </button>
+      </div>
+    )
+  }
+
+  // ── PROCESSING VIEW ──────────────────────────────────────────────────────
   if (isProcessing) {
     return (
       <div className="result-card rounded-2xl p-8 animate-fade-in">
@@ -252,21 +441,28 @@ export default function UploadZone() {
     )
   }
 
-  // --- MAIN UPLOAD VIEW ---
+  // ── MAIN VIEW ────────────────────────────────────────────────────────────
   return (
     <div className="space-y-4 animate-slide-up" style={{ animationFillMode: 'both' }}>
+
+      {/* Tab Bar */}
       <div className="flex rounded-xl overflow-hidden border border-[#1A2640] p-1 bg-[#080C14]/60">
-        {(['upload', 'youtube'] as TabType[]).map((tabKey) => (
-          <button key={tabKey} onClick={() => setTab(tabKey)}
-            className={`flex-1 py-2.5 rounded-lg text-sm font-display tracking-wider transition-all ${
-              tab === tabKey ? 'bg-gradient-to-r from-[#0066FF] to-[#00D4FF] text-white' : 'text-gray-500 hover:text-gray-300'
+        {(['upload', 'youtube', 'transcribe'] as TabType[]).map((tabKey) => (
+          <button key={tabKey} onClick={() => { setTab(tabKey); setError(null) }}
+            className={`flex-1 py-2.5 rounded-lg text-xs font-display tracking-wider transition-all ${
+              tab === tabKey
+                ? tabKey === 'transcribe'
+                  ? 'bg-gradient-to-r from-emerald-600 to-[#00D4FF] text-white'
+                  : 'bg-gradient-to-r from-[#0066FF] to-[#00D4FF] text-white'
+                : 'text-gray-500 hover:text-gray-300'
             }`}>
-            {tabKey === 'upload' ? u.tabFile : u.tabYoutube}
+            {tabKey === 'upload' ? u.tabFile : tabKey === 'youtube' ? u.tabYoutube : u.tabTranscribe}
           </button>
         ))}
       </div>
 
-      {tab === 'upload' ? (
+      {/* ── Upload Tab ── */}
+      {tab === 'upload' && (
         <div
           className={`upload-zone rounded-2xl p-10 text-center cursor-pointer relative overflow-hidden ${isDragging ? 'dragging' : ''}`}
           onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop}
@@ -274,7 +470,6 @@ export default function UploadZone() {
         >
           <div className="scan-line" />
           <input ref={fileInputRef} type="file" accept="video/*,audio/*" className="hidden" onChange={handleFileInput} />
-
           <div className="relative inline-flex items-center justify-center w-24 h-24 mb-6 mx-auto animate-float">
             <div className="absolute inset-0 rounded-2xl bg-[#0066FF]/10 blur-xl" />
             <div className="relative w-full h-full rounded-2xl border border-[#1A2640] bg-[#0D1421] flex items-center justify-center">
@@ -295,17 +490,18 @@ export default function UploadZone() {
               </svg>
             </div>
           </div>
-
           <h3 className="font-display text-xl font-bold text-white mb-2 tracking-wider">{u.dragTitle}</h3>
           <p className="text-gray-500 text-sm">{u.dragSub}</p>
-
           {isDragging && (
             <div className="absolute inset-0 bg-[#00D4FF]/5 flex items-center justify-center rounded-2xl">
               <p className="font-display text-[#00D4FF] text-lg font-bold tracking-wider animate-pulse">{u.dropIt}</p>
             </div>
           )}
         </div>
-      ) : (
+      )}
+
+      {/* ── YouTube Tab ── */}
+      {tab === 'youtube' && (
         <div className="upload-zone rounded-2xl p-6 space-y-4">
           <div className="flex gap-2">
             <input type="text" value={youtubeUrl}
@@ -348,7 +544,6 @@ export default function UploadZone() {
                 <span className="text-lg">⚠️</span>
                 <p className="text-sm text-yellow-400 font-medium">{u.youtubeBlocked}</p>
               </div>
-
               {ytInfo && (
                 <div className="flex gap-3 p-3 rounded-xl bg-[#080C14] border border-[#1A2640]">
                   {ytInfo.thumbnail && <img src={ytInfo.thumbnail} alt="" className="w-20 h-14 object-cover rounded-lg flex-shrink-0" />}
@@ -358,17 +553,14 @@ export default function UploadZone() {
                   </div>
                 </div>
               )}
-
               <p className="text-xs text-gray-400">
                 {u.youtubeManual} <strong className="text-white">{u.uploadFileTab}</strong> {u.tab}
               </p>
-
               <a href={`https://en1.savefrom.net/1-youtube-video-downloader-14hf/#${youtubeUrl}`}
                 target="_blank" rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-yellow-500/10 border border-yellow-500/40 text-yellow-400 hover:bg-yellow-500/20 transition-all text-sm font-display tracking-wider">
                 {u.downloadSavefrom}
               </a>
-
               <button onClick={() => { setError(null); setTab('upload') }}
                 className="w-full py-2.5 rounded-xl border border-[#1A2640] text-gray-400 hover:text-white hover:border-[#00D4FF]/40 transition-all text-sm font-display tracking-wider">
                 {u.uploadFileBtn}
@@ -378,6 +570,129 @@ export default function UploadZone() {
         </div>
       )}
 
+      {/* ── Transcribe Tab ── */}
+      {tab === 'transcribe' && (
+        <div className="upload-zone rounded-2xl p-6 space-y-4">
+
+          {/* Language selector */}
+          <div className="flex items-center gap-3">
+            <label className="text-xs text-gray-500 font-display tracking-wider shrink-0">{u.transcribeLang}</label>
+            <select
+              value={transcribeLang}
+              onChange={(e) => setTranscribeLang(e.target.value)}
+              className="flex-1 bg-[#080C14] border border-[#1A2640] rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[#00D4FF]/50 transition-colors font-body appearance-none cursor-pointer"
+            >
+              <option value="">{u.transcribeLangAuto}</option>
+              <option value="tr">Türkçe</option>
+              <option value="en">English</option>
+              <option value="ar">العربية</option>
+              <option value="de">Deutsch</option>
+              <option value="fr">Français</option>
+              <option value="es">Español</option>
+              <option value="it">Italiano</option>
+              <option value="fa">فارسی</option>
+              <option value="ru">Русский</option>
+              <option value="zh">中文</option>
+              <option value="ja">日本語</option>
+              <option value="ko">한국어</option>
+            </select>
+          </div>
+
+          {/* Sub-tabs: File / YouTube */}
+          <div className="flex rounded-lg overflow-hidden border border-[#1A2640] p-0.5 bg-[#080C14]/40">
+            {(['file', 'youtube'] as const).map((st) => (
+              <button key={st} onClick={() => setTranscribeTab(st)}
+                className={`flex-1 py-2 rounded-md text-xs font-display tracking-wider transition-all ${
+                  transcribeTab === st ? 'bg-[#1A2640] text-white' : 'text-gray-600 hover:text-gray-400'
+                }`}>
+                {st === 'file' ? u.tabFile : u.tabYoutube}
+              </button>
+            ))}
+          </div>
+
+          {/* File upload */}
+          {transcribeTab === 'file' && (
+            <div
+              className="flex flex-col items-center justify-center gap-4 p-8 rounded-xl border-2 border-dashed border-[#1A2640] hover:border-emerald-500/40 transition-all cursor-pointer group"
+              onClick={() => transcribeFileInputRef.current?.click()}
+            >
+              <input
+                ref={transcribeFileInputRef}
+                type="file"
+                accept="video/*,audio/*"
+                className="hidden"
+                onChange={handleTranscribeFileInput}
+              />
+              <div className="w-12 h-12 rounded-xl bg-emerald-500/10 group-hover:bg-emerald-500/20 transition-all flex items-center justify-center">
+                <svg className="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                </svg>
+              </div>
+              <div className="text-center">
+                <p className="text-sm font-display text-white tracking-wider">{u.transcribeDropTitle}</p>
+                <p className="text-xs text-gray-500 mt-1">{u.transcribeDropSub}</p>
+              </div>
+            </div>
+          )}
+
+          {/* YouTube transcribe */}
+          {transcribeTab === 'youtube' && (
+            <div className="space-y-3">
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={transcribeYtUrl}
+                  onChange={(e) => {
+                    setTranscribeYtUrl(e.target.value)
+                    if (e.target.value.length > 20) setTimeout(() => fetchTranscribeYtInfo(e.target.value), 800)
+                  }}
+                  placeholder={u.youtubePlaceholder}
+                  className="flex-1 bg-[#080C14] border border-[#1A2640] rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-emerald-500/50 transition-colors font-body"
+                />
+                <button
+                  onClick={handleTranscribeYoutube}
+                  disabled={!transcribeYtUrl.trim()}
+                  className="px-5 py-3 rounded-xl text-sm font-display font-bold tracking-wider text-white bg-gradient-to-r from-emerald-600 to-[#00D4FF] hover:opacity-90 transition-opacity disabled:opacity-40 disabled:pointer-events-none"
+                >
+                  {u.process}
+                </button>
+              </div>
+
+              {transcribeYtLoading && (
+                <div className="flex items-center gap-2 text-xs text-gray-500">
+                  <div className="w-3 h-3 border border-emerald-400 border-t-transparent rounded-full animate-spin" />
+                  {u.fetchingInfo}
+                </div>
+              )}
+
+              {transcribeYtInfo && (
+                <div className="flex gap-3 p-3 rounded-xl bg-[#080C14] border border-[#1A2640]">
+                  {transcribeYtInfo.thumbnail && (
+                    <img src={transcribeYtInfo.thumbnail} alt="" className="w-20 h-14 object-cover rounded-lg flex-shrink-0" />
+                  )}
+                  <div className="min-w-0">
+                    <p className="text-sm text-white font-medium truncate">{transcribeYtInfo.title}</p>
+                    <p className="text-xs text-gray-500 mt-0.5">{transcribeYtInfo.uploader}</p>
+                    <p className="text-xs text-emerald-400 mt-1">
+                      {transcribeYtInfo.duration
+                        ? `${Math.floor(transcribeYtInfo.duration / 60)}:${String(transcribeYtInfo.duration % 60).padStart(2, '0')}`
+                        : ''}
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Info badge */}
+          <div className="flex items-center gap-2 p-3 rounded-lg bg-emerald-500/5 border border-emerald-500/20">
+            <span className="text-emerald-400 text-sm">🧠</span>
+            <p className="text-xs text-gray-400">{u.transcribeInfo}</p>
+          </div>
+        </div>
+      )}
+
+      {/* Generic error */}
       {error && error !== 'youtube_blocked' && (
         <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm">
           ❌ {error}

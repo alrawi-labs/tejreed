@@ -19,68 +19,152 @@ export default function LanguageSwitcher() {
   const { lang, setLang } = useLang()
   const [isOpen, setIsOpen] = useState(false)
 
-  const currentLang = LANGS.find(l => l.code === lang) || LANGS[0]
+  const currentLang = LANGS.find(l => l.code === lang) || LANGS[2]
 
   return (
-    <div className="relative">
-      {/* Trigger Button */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-2 rounded-lg border border-[#1A2640] bg-[#080C14]/80 backdrop-blur-sm hover:bg-[#0D1421] transition-all duration-200 group"
-      >
-        <span className="text-sm font-display tracking-wider text-gray-300 group-hover:text-white transition-colors">
-          {currentLang.label}
-        </span>
-        <svg
-          className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-        </svg>
-      </button>
+    <>
+      <style>{`
+        .lang-btn {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          padding: 6px 14px;
+          border-radius: 50px;
+          background: rgba(255,255,255,0.40);
+          border: 1.5px solid rgba(255,255,255,0.70);
+          backdrop-filter: blur(12px);
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+        .lang-btn:hover {
+          background: rgba(255,255,255,0.62);
+          box-shadow: 0 4px 16px rgba(160,96,255,0.15);
+        }
+        .lang-dropdown {
+          position: absolute;
+          top: calc(100% + 8px);
+          right: 0;
+          z-index: 50;
+          width: 200px;
+          border-radius: 20px;
+          overflow: hidden;
+          background: linear-gradient(
+            145deg,
+            rgba(255,255,255,0.82) 0%,
+            rgba(240,228,255,0.78) 100%
+          );
+          border: 1.5px solid rgba(255,255,255,0.90);
+          backdrop-filter: blur(32px);
+          box-shadow:
+            0 16px 48px rgba(140,100,240,0.18),
+            0 4px 16px rgba(100,180,255,0.10),
+            inset 0 1px 0 rgba(255,255,255,0.95);
+        }
+        .lang-item {
+          width: 100%;
+          padding: 10px 14px;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          cursor: pointer;
+          background: transparent;
+          border: none;
+          text-align: left;
+          transition: background 0.15s ease;
+        }
+        .lang-item:hover {
+          background: rgba(160,96,255,0.08);
+        }
+        .lang-item.active {
+          background: linear-gradient(
+            90deg,
+            rgba(144,96,255,0.12) 0%,
+            rgba(96,200,255,0.08) 100%
+          );
+          border-right: 2.5px solid #9060FF;
+        }
+        .lang-item + .lang-item {
+          border-top: 1px solid rgba(255,255,255,0.60);
+        }
+      `}</style>
 
-      {/* Dropdown Menu */}
-      {isOpen && (
-        <>
-          {/* Backdrop */}
-          <div
-            className="fixed inset-0 z-10"
-            onClick={() => setIsOpen(false)}
-          />
+      <div className="relative">
+        {/* Trigger */}
+        <button className="lang-btn" onClick={() => setIsOpen(!isOpen)}>
+          <span style={{ fontSize: 16, lineHeight: 1 }}>{currentLang.flag}</span>
+          <span
+            className="font-display font-bold text-sm tracking-wider"
+            style={{ color: 'var(--text-secondary)' }}
+          >
+            {currentLang.label}
+          </span>
+          <svg
+            width="14"
+            height="14"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2.5}
+            viewBox="0 0 24 24"
+            style={{
+              color: 'var(--text-light)',
+              transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+              transition: 'transform 0.2s ease',
+            }}
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
 
-          {/* Menu */}
-          <div className="absolute top-full mt-2 right-0 z-20 w-48 bg-[#080C14]/95 backdrop-blur-xl border border-[#1A2640] rounded-lg shadow-xl overflow-hidden">
-            {LANGS.map(({ code, label, flag, fullName }) => (
-              <button
-                key={code}
-                onClick={() => {
-                  setLang(code)
-                  setIsOpen(false)
-                }}
-                className={`w-full px-4 py-3 text-left hover:bg-[#0D1421] transition-colors duration-150 flex items-center gap-3 group ${
-                  lang === code ? 'bg-gradient-to-r from-[#0066FF]/20 to-[#00D4FF]/10 border-r-2 border-[#00D4FF]' : ''
-                }`}
-              >
-                <div className="flex flex-col">
-                  <span className="text-sm font-display tracking-wider text-white group-hover:text-[#00D4FF] transition-colors">
-                    {label}
-                  </span>
-                  <span className="text-xs text-gray-400">
-                    {fullName}
-                  </span>
-                </div>
-                {lang === code && (
-                  <svg className="w-4 h-4 text-[#00D4FF] ml-auto" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                )}
-              </button>
-            ))}
+        {/* Backdrop */}
+        {isOpen && (
+          <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
+        )}
+
+        {/* Dropdown */}
+        {isOpen && (
+          <div className="lang-dropdown">
+            {LANGS.map(({ code, flag, label, fullName }) => {
+              const active = lang === code
+              return (
+                <button
+                  key={code}
+                  className={`lang-item ${active ? 'active' : ''}`}
+                  onClick={() => { setLang(code); setIsOpen(false) }}
+                >
+                  <span style={{ fontSize: 18, lineHeight: 1, flexShrink: 0 }}>{flag}</span>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div
+                      className="font-display font-bold text-xs tracking-wider"
+                      style={{ color: active ? '#9060FF' : 'var(--text-primary)' }}
+                    >
+                      {label}
+                    </div>
+                    <div
+                      className="text-xs font-body truncate"
+                      style={{ color: 'var(--text-light)', marginTop: 1 }}
+                    >
+                      {fullName}
+                    </div>
+                  </div>
+                  {active && (
+                    <svg
+                      width="14"
+                      height="14"
+                      fill="none"
+                      stroke="#9060FF"
+                      strokeWidth={2.5}
+                      viewBox="0 0 24 24"
+                      style={{ flexShrink: 0 }}
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  )}
+                </button>
+              )
+            })}
           </div>
-        </>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   )
 }
