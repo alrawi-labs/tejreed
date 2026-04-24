@@ -10,13 +10,13 @@ interface LangContextType {
 }
 
 const LangContext = createContext<LangContextType>({
-  lang: 'en',
+  lang: 'tr',
   setLang: () => {},
-  t: translations['en'],
+  t: translations['tr'],
 })
 
 export function LangProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>('en')
+  const [lang, setLangState] = useState<Lang>('tr')
 
   useEffect(() => {
     const saved = localStorage.getItem('tejreed_lang') as Lang | null
