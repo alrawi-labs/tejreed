@@ -79,13 +79,13 @@ const t = {
       subtitle: "Separate crystal-clear vocals from any video instantly.",
     },
 
-    // ── Stats (StatsBar.tsx) ────────────────────────────
-    stats: [
-      { value: "2M+", label: "FILES PROCESSED" },
-      { value: "99.2%", label: "ACCURACY RATE" },
-      { value: "<30s", label: "AVERAGE TIME" },
-      { value: "4K", label: "ACTIVE USERS" },
-    ],
+    // ── Stats (StatsSection.tsx) ────────────────────────────
+    stats: {
+      vocalsExtracted: "Vocals Extracted",
+      filesUploaded: "Files Uploaded",
+      youtubeLinks: "YouTube Links",
+      successRate: "Success Rate",
+    },
 
     // ── Upload zone (UploadZone.tsx) ────────────────────
     upload: {
@@ -650,12 +650,12 @@ const t = {
       subtitle:
         "Herhangi bir videodan kristal netliğinde vokalleri anında ayırın.",
     },
-    stats: [
-      { value: "2M+", label: "İŞLENEN DOSYA" },
-      { value: "99.2%", label: "DOĞRULUK ORANI" },
-      { value: "<30s", label: "ORTALAMA SÜRE" },
-      { value: "4K", label: "AKTİF KULLANICI" },
-    ],
+    stats: {
+      vocalsExtracted: "Vokal Ayrıştırıldı",
+      filesUploaded: "Yüklenen Dosya",
+      youtubeLinks: "YouTube Bağlantısı",
+      successRate: "Başarı Oranı",
+    },
     upload: {
       tabFile: "↑ DOSYA YÜKLE",
       tabYoutube: "▶ YOUTUBE",
@@ -1154,7 +1154,8 @@ const t = {
     home: {
       badge: "منصة الأدوات الإبداعية بالذكاء الاصطناعي",
       title: "تجريد",
-      subtitle: "أطلق العنان لإبداعك بأدوات مدعومة بالذكاء الاصطناعي. اختر أداتك وانطلق فوراً.",
+      subtitle:
+        "أطلق العنان لإبداعك بأدوات مدعومة بالذكاء الاصطناعي. اختر أداتك وانطلق فوراً.",
       tools: [
         {
           label: "إزالة الموسيقى",
@@ -1164,7 +1165,8 @@ const t = {
         },
         {
           label: "النسخ الآلي",
-          description: "استخراج النص تلقائياً من الملفات الصوتية والمرئية بدقة فائقة.",
+          description:
+            "استخراج النص تلقائياً من الملفات الصوتية والمرئية بدقة فائقة.",
           available: false,
           tag: "قريباً",
         },
@@ -1176,7 +1178,8 @@ const t = {
         },
         {
           label: "تحسين الصورة",
-          description: "إحياء الصور منخفضة الدقة وتكبيرها بتقنية الذكاء الاصطناعي.",
+          description:
+            "إحياء الصور منخفضة الدقة وتكبيرها بتقنية الذكاء الاصطناعي.",
           available: false,
           tag: "قريباً",
         },
@@ -1196,12 +1199,12 @@ const t = {
       title2: "استخلاص الصوت بالذكاء الاصطناعي",
       subtitle: "استخلاص أصوات ناصعة الوضوح من أي مقطع مرئي في لحظات.",
     },
-    stats: [
-      { value: "+2M", label: "ملف جرت معالجته" },
-      { value: "99.2%", label: "معدل الدقة" },
-      { value: "<30s", label: "متوسط وقت المعالجة" },
-      { value: "4K", label: "مستخدم نشط" },
-    ],
+    stats: {
+      vocalsExtracted: "صوت مستخرج",
+      filesUploaded: "ملف مرفوع",
+      youtubeLinks: "روابط يوتيوب",
+      successRate: "معدل النجاح",
+    },
     upload: {
       tabFile: "↑ رفع ملف",
       tabYoutube: "▶ يوتيوب",
@@ -1230,7 +1233,8 @@ const t = {
       transcribeDropSub: "ملفات صوتية أو مرئية — MP3، WAV، MP4، MOV وسواها",
       transcribeLang: "اللغة",
       transcribeLangAuto: "كشف تلقائي",
-      transcribeInfo: "يُفرِّغ Whisper AI المحتوى الكلامي في 99 لغة مع طوابع زمنية دقيقة.",
+      transcribeInfo:
+        "يُفرِّغ Whisper AI المحتوى الكلامي في 99 لغة مع طوابع زمنية دقيقة.",
       transcribeCompleteTitle: "اكتمل النسخ",
       transcribeDetectedLang: "اللغة المكتشفة",
       transcribeSegments: "المقاطع",
@@ -1239,7 +1243,8 @@ const t = {
     howItWorks: {
       tag: "خطوات يسيرة",
       title: "كيف يعمل؟",
-      subtitle: "ثلاث خطوات لا غير. بلا حساب، بلا علامات مائية، وأصوات ناصعة النقاء.",
+      subtitle:
+        "ثلاث خطوات لا غير. بلا حساب، بلا علامات مائية، وأصوات ناصعة النقاء.",
       tryNow: "جربه الآن",
       steps: [
         {
@@ -1312,7 +1317,11 @@ const t = {
           handle: "yasir-alrawi",
           description: "تواصل احترافي",
         },
-        { label: "GitHub", handle: "yasir237", description: "استكشف الكود المصدري" },
+        {
+          label: "GitHub",
+          handle: "yasir237",
+          description: "استكشف الكود المصدري",
+        },
       ],
       builtBy: "صُنع بـ ❤️ على يد",
     },
@@ -1341,15 +1350,18 @@ const t = {
       howItWorks: "كيف يعمل؟",
       steps: [
         { step: "1", title: "ارفع", desc: "اختر ملفك الصوتي أو المرئي" },
-        { step: "2", title: "الذكاء يفصل", desc: "يحلل النموذج طبقات الموسيقى" },
+        {
+          step: "2",
+          title: "الذكاء يفصل",
+          desc: "يحلل النموذج طبقات الموسيقى",
+        },
         { step: "3", title: "نزّل", desc: "احصل على الصوت ناصعاً" },
       ],
     },
     pricing: {
       badge: "الأسعار",
       title: "اختر الخطة الأنسب لك",
-      subtitle:
-        "ابدأ مجاناً وارتقِ حين تشاء. لا التزامات، وإلغاء في أي وقت.",
+      subtitle: "ابدأ مجاناً وارتقِ حين تشاء. لا التزامات، وإلغاء في أي وقت.",
       monthly: "شهري",
       yearly: "سنوي",
       discount: "خصم 33%",
@@ -1367,7 +1379,8 @@ const t = {
       faqTag: "الأسئلة الشائعة",
       faqTitle: "تساؤلات يكثر طرحها",
       ctaTitle: "لا تزال مترددًا؟",
-      ctaSubtitle: "جرّب Pro مجاناً لمدة 7 أيام كاملة. دون الحاجة إلى بطاقة ائتمانية.",
+      ctaSubtitle:
+        "جرّب Pro مجاناً لمدة 7 أيام كاملة. دون الحاجة إلى بطاقة ائتمانية.",
       ctaBtn: "جرّب مجاناً ✦",
       ctaSalesBtn: "→ تواصل مع فريق المبيعات",
       plans: [
@@ -1440,7 +1453,12 @@ const t = {
           pro: "سريعة",
           enterprise: "قصوى",
         },
-        { label: "تنزيل بلا علامة مائية", free: false, pro: true, enterprise: true },
+        {
+          label: "تنزيل بلا علامة مائية",
+          free: false,
+          pro: true,
+          enterprise: true,
+        },
         {
           label: "الوصول إلى API",
           free: false,
@@ -1719,12 +1737,12 @@ const t = {
       title2: "جداساز صدا با هوش مصنوعی",
       subtitle: "جداسازی صدای شفاف از هر ویدیویی به صورت فوری.",
     },
-    stats: [
-      { value: "+۲M", label: "فایل پردازش‌شده" },
-      { value: "۹۹.۲%", label: "دقت" },
-      { value: "<۳۰s", label: "میانگین زمان" },
-      { value: "۴K", label: "کاربر فعال" },
-    ],
+    stats: {
+      vocalsExtracted: "صدای استخراج‌شده",
+      filesUploaded: "فایل آپلودشده",
+      youtubeLinks: "لینک یوتیوب",
+      successRate: "نرخ موفقیت",
+    },
     upload: {
       tabFile: "↑ آپلود فایل",
       tabYoutube: "▶ یوتیوب",
@@ -2276,12 +2294,12 @@ const t = {
       subtitle:
         "Séparez des voix cristallines de n'importe quelle vidéo instantanément.",
     },
-    stats: [
-      { value: "2M+", label: "FICHIERS TRAITÉS" },
-      { value: "99.2%", label: "TAUX DE PRÉCISION" },
-      { value: "<30s", label: "TEMPS MOYEN" },
-      { value: "4K", label: "UTILISATEURS ACTIFS" },
-    ],
+    stats: {
+      vocalsExtracted: "Voix Extraites",
+      filesUploaded: "Fichiers Importés",
+      youtubeLinks: "Liens YouTube",
+      successRate: "Taux de Réussite",
+    },
     upload: {
       tabFile: "↑ TÉLÉVERSER",
       tabYoutube: "▶ YOUTUBE",
@@ -2845,12 +2863,12 @@ const t = {
       title2: "KI-VOCAL-EXTRAKTOR",
       subtitle: "Trenne kristallklare Vocals sofort aus jedem Video.",
     },
-    stats: [
-      { value: "2M+", label: "VERARBEITETE DATEIEN" },
-      { value: "99.2%", label: "GENAUIGKEITSRATE" },
-      { value: "<30s", label: "DURCHSCHNITTSZEIT" },
-      { value: "4K", label: "AKTIVE NUTZER" },
-    ],
+    stats: {
+      vocalsExtracted: "Vocals Extrahiert",
+      filesUploaded: "Dateien Hochgeladen",
+      youtubeLinks: "YouTube-Links",
+      successRate: "Erfolgsrate",
+    },
     upload: {
       tabFile: "↑ DATEI HOCHLADEN",
       tabYoutube: "▶ YOUTUBE",
@@ -3411,12 +3429,12 @@ const t = {
       title2: "EXTRACTOR VOCAL CON IA",
       subtitle: "Separa voces cristalinas de cualquier video al instante.",
     },
-    stats: [
-      { value: "2M+", label: "ARCHIVOS PROCESADOS" },
-      { value: "99.2%", label: "TASA DE PRECISIÓN" },
-      { value: "<30s", label: "TIEMPO PROMEDIO" },
-      { value: "4K", label: "USUARIOS ACTIVOS" },
-    ],
+    stats: {
+      vocalsExtracted: "Voces Extraídas",
+      filesUploaded: "Archivos Subidos",
+      youtubeLinks: "Enlaces de YouTube",
+      successRate: "Tasa de Éxito",
+    },
     upload: {
       tabFile: "↑ SUBIR ARCHIVO",
       tabYoutube: "▶ YOUTUBE",
@@ -3976,12 +3994,12 @@ const t = {
       title2: "ESTRATTORE VOCALE IA",
       subtitle: "Separa voci cristalline da qualsiasi video all'istante.",
     },
-    stats: [
-      { value: "2M+", label: "FILE ELABORATI" },
-      { value: "99.2%", label: "TASSO DI PRECISIONE" },
-      { value: "<30s", label: "TEMPO MEDIO" },
-      { value: "4K", label: "UTENTI ATTIVI" },
-    ],
+    stats: {
+      vocalsExtracted: "Voci Estratte",
+      filesUploaded: "File Caricati",
+      youtubeLinks: "Link YouTube",
+      successRate: "Tasso di Successo",
+    },
     upload: {
       tabFile: "↑ CARICA FILE",
       tabYoutube: "▶ YOUTUBE",
