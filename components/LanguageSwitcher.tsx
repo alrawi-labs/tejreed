@@ -5,7 +5,7 @@ import { useLang } from '@/i18n/LangContext'
 import { Lang } from '@/i18n/translations'
 
 const LANGS: { code: Lang; label: string; flag: string; fullName: string }[] = [
-  { code: 'ar', label: 'AR', flag: '🇸🇦', fullName: 'العربية' },
+  { code: 'ar', label: 'AR', flag: '🇮🇶', fullName: 'العربية' },
   { code: 'tr', label: 'TR', flag: '🇹🇷', fullName: 'Türkçe' },
   { code: 'en', label: 'EN', flag: '🇺🇸', fullName: 'English' },
   { code: 'fa', label: 'FA', flag: '🇮🇷', fullName: 'فارسی' },
