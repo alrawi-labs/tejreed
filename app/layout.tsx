@@ -64,6 +64,7 @@ export default function RootLayout({
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6180379726303484"
           crossOrigin="anonymous"
         />
+         <meta name="google-adsense-account" content="ca-pub-6180379726303484" />
       </head>
 
       <body
