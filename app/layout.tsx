@@ -1,21 +1,24 @@
 import type { Metadata } from "next";
+import Script from "next/script";
+
 import {
   Orbitron,
   Nunito,
   Noto_Kufi_Arabic,
   Aref_Ruqaa,
 } from "next/font/google";
+
 import "./globals.css";
 import { LangProvider } from "@/i18n/LangContext";
 
-/* ─── Display font: Orbitron (bold tech titles) ─── */
+/* ─── Display font: Orbitron ─── */
 const orbitron = Orbitron({
   subsets: ["latin"],
   variable: "--font-orbitron",
   weight: ["400", "600", "700", "800", "900"],
 });
 
-/* ─── Body font: Nunito (soft, rounded, cute) ─── */
+/* ─── Body font: Nunito ─── */
 const nunito = Nunito({
   subsets: ["latin"],
   variable: "--font-nunito",
@@ -53,6 +56,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <Script
+          id="adsense-script"
+          async
+          strategy="afterInteractive"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6180379726303484"
+          crossOrigin="anonymous"
+        />
+      </head>
+
       <body
         className={`
           ${orbitron.variable}

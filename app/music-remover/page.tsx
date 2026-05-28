@@ -6,6 +6,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useLang } from "@/i18n/LangContext";
 import StatsSection from "@/components/StatsSection";
+import AdGate from "@/components/AdGate";
+
 
 type Tab = "file" | "youtube";
 type Stage = "idle" | "processing" | "done" | "error";
@@ -687,65 +689,32 @@ export default function MusicRemoverPage() {
 
                 {/* Download links — نفس نمط UploadZone القديم بالضبط */}
                 <div className="space-y-3 mb-4">
-                  {result.vocals && (
-                    <a
-                      href={result.vocals}
-                      download="vocals.mp3"
-                      className="flex items-center justify-between p-4 rounded-2xl transition-all"
-                      style={{
-                        background: "rgba(255,255,255,0.40)",
-                        border: "1.5px solid rgba(255,255,255,0.70)",
-                      }}
-                    >
-                      <span
-                        className="text-sm font-bold"
-                        style={{ color: "var(--text-primary)" }}
-                      >
-                        {u.downloadVocals}
-                      </span>
-                      <span style={{ color: "var(--text-light)" }}>⬇️</span>
-                    </a>
-                  )}
+                 {result.vocals && (
+                   <AdGate
+                     href={result.vocals}
+                     filename="vocals.mp3"
+                     label={u.downloadVocals}
+                     countdownSeconds={15}
+                   />
+                 )}
 
-                  {result.type === "video" && result.vocal_video && (
-                    <a
-                      href={result.vocal_video}
-                      download="vocal_video.mp4"
-                      className="flex items-center justify-between p-4 rounded-2xl transition-all"
-                      style={{
-                        background: "rgba(255,255,255,0.40)",
-                        border: "1.5px solid rgba(255,255,255,0.70)",
-                      }}
-                    >
-                      <span
-                        className="text-sm font-bold"
-                        style={{ color: "var(--text-primary)" }}
-                      >
-                        {u.downloadVideo}
-                      </span>
-                      <span style={{ color: "var(--text-light)" }}>⬇️</span>
-                    </a>
-                  )}
+                 {result.type === "video" && result.vocal_video && (
+                   <AdGate
+                     href={result.vocal_video}
+                     filename="vocal_video.mp4"
+                     label={u.downloadVideo}
+                     countdownSeconds={15}
+                   />
+                 )}
 
-                  {result.type === "video" && result.zip && (
-                    <a
-                      href={result.zip}
-                      download="tejreed_output.zip"
-                      className="flex items-center justify-between p-4 rounded-2xl transition-all"
-                      style={{
-                        background: "rgba(255,255,255,0.40)",
-                        border: "1.5px solid rgba(255,255,255,0.70)",
-                      }}
-                    >
-                      <span
-                        className="text-sm font-bold"
-                        style={{ color: "var(--text-primary)" }}
-                      >
-                        {u.downloadAll}
-                      </span>
-                      <span style={{ color: "var(--text-light)" }}>⬇️</span>
-                    </a>
-                  )}
+                 {result.type === "video" && result.zip && (
+                   <AdGate
+                     href={result.zip}
+                     filename="tejreed_output.zip"
+                     label={u.downloadAll}
+                     countdownSeconds={15}
+                   />
+                 )}
                 </div>
 
                 <button
