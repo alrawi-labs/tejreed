@@ -6,7 +6,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useLang } from "@/i18n/LangContext";
 import StatsSection from "@/components/StatsSection";
-import AdGate from "@/components/AdGate";
+import dynamic from "next/dynamic";
+const AdGate = dynamic(() => import("@/components/AdGate"), { ssr: false });
 
 
 type Tab = "file" | "youtube";
