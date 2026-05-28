@@ -33,6 +33,7 @@ const AD_SLOT   = process.env.NEXT_PUBLIC_ADSENSE_SLOT   ?? "6859003102";
 /** Bir kez AdSense scriptini yükler */
 function useAdSenseScript() {
   useEffect(() => {
+    if (typeof window === "undefined") return; // SSR guard
     const id = "adsense-script";
     if (document.getElementById(id)) return;
     const s = document.createElement("script");
@@ -53,6 +54,7 @@ export default function AdGate({
 }: AdGateProps) {
   useAdSenseScript();
 
+  const [mounted, setMounted] = useState(false); // hydration fix
   const [open, setOpen] = useState(false);
   const [remaining, setRemaining] = useState(countdownSeconds);
   const [ready, setReady] = useState(false);
@@ -63,6 +65,9 @@ export default function AdGate({
   const adRef = useRef<HTMLModElement | null>(null);
   const remainingRef = useRef(countdownSeconds);
 
+  // Hydration fix — sadece client'ta render et
+  useEffect(() => { setMounted(true); }, []);
+
   /* Sayaç — sekme gizlenince durur, geri gelince devam eder */
   useEffect(() => {
     if (!open) return;
@@ -72,7 +77,7 @@ export default function AdGate({
     setPaused(false);
 
     const start = () => {
-      if (timerRef.current) return; // zaten çalışıyor
+      if (timerRef.current) return;
       timerRef.current = setInterval(() => {
         remainingRef.current -= 1;
         setRemaining(remainingRef.current);
@@ -103,7 +108,6 @@ export default function AdGate({
 
     document.addEventListener("visibilitychange", onVisibility);
 
-    /* Pencere odağını kaybedince de durdur (başka uygulamaya geçiş) */
     const onBlur  = () => { pause(); setPaused(true);  };
     const onFocus = () => { setPaused(false); start(); };
     window.addEventListener("blur",  onBlur);
@@ -111,7 +115,6 @@ export default function AdGate({
 
     start();
 
-    /* AdSense push */
     try {
       (window as any).adsbygoogle = (window as any).adsbygoogle || [];
       (window as any).adsbygoogle.push({});
@@ -177,6 +180,9 @@ export default function AdGate({
       setLoading(false);
     }
   }, [ready, href, fileId, filename]);
+
+  // SSR'da hiçbir şey render etme
+  if (!mounted) return null;
 
   /* ─── Trigger Butonu ──────────────────────────────────────────────────── */
   const trigger = (
@@ -271,7 +277,6 @@ export default function AdGate({
           />
         </div>
 
-        {/* Sayaç */}
         {/* Duraklatıldı uyarısı */}
         {paused && !ready && (
           <div
