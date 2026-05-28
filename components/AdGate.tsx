@@ -27,8 +27,8 @@ interface AdGateProps {
   countdownSeconds?: number;
 }
 
-const AD_CLIENT = process.env.NEXT_PUBLIC_ADSENSE_CLIENT ?? "ca-pub-XXXXXXXXXXXXXXXX";
-const AD_SLOT   = process.env.NEXT_PUBLIC_ADSENSE_SLOT   ?? "XXXXXXXXXX";
+const AD_CLIENT = process.env.NEXT_PUBLIC_ADSENSE_CLIENT ?? "ca-pub-6180379726303484";
+const AD_SLOT   = process.env.NEXT_PUBLIC_ADSENSE_SLOT   ?? "6859003102";
 
 /** Bir kez AdSense scriptini yükler */
 function useAdSenseScript() {
