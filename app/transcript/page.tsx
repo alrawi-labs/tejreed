@@ -9,8 +9,7 @@ import StatsSection from "@/components/StatsSection";
 
 type Stage = "idle" | "processing" | "done" | "error";
 
-const API_BASE = process.env.NEXT_PUBLIC_TRANSCRIPT_API_URL ?? "";
-const API_KEY  = process.env.NEXT_PUBLIC_TRANSCRIPT_API_KEY ?? "";
+
 
 
 interface TranscriptResult {
@@ -130,9 +129,8 @@ export default function TranscriptPage() {
     formData.append("dosya", file);
 
     try {
-      const res = await fetch(`${API_BASE}/transkript`, {
+      const res = await fetch("/proxy/transkript", {
         method: "POST",
-        headers: { "X-API-Key": API_KEY },
         body: formData,
       });
 
