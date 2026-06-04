@@ -44,7 +44,7 @@ const t = {
         {
           label: "Transcript",
           description: "Automatically extract text from audio and video files.",
-          available: false,
+          available: true,
           tag: "Soon",
         },
         {
@@ -253,6 +253,34 @@ const t = {
     },
 
     // ── Pricing page (/pricing) ──────────────────────────
+
+    transcript: {
+      badge: "AI TRANSCRIPT",
+      title: "TRANSCRIPT",
+      subtitle: "Automatically extract text from audio and video files. Powered by Whisper AI.",
+      breadcrumbHome: "← Tools",
+      breadcrumbCurrent: "Transcript",
+      dropTitle: "DRAG & DROP YOUR AUDIO / VIDEO HERE",
+      dropSub: "or click to select",
+      dropFormats: "MP3, MP4, WAV, M4A, OGG, FLAC — Max. 100 MB",
+      processBtn: "Transcribe →",
+      aiSubtitle: "AI is processing your file…",
+      done: "Done! 🎉",
+      doneSub: "Your transcript is ready",
+      copyBtn: "Copy Text",
+      copied: "Copied!",
+      downloadTxt: "Download .TXT",
+      downloadSrt: "Download .SRT",
+      newFile: "🔄 New File",
+      detectedLang: "Detected language",
+      howItWorks: "How It Works?",
+      steps: [
+        { step: "1", title: "Upload", desc: "Select your audio or video file" },
+        { step: "2", title: "AI Transcribes", desc: "Whisper AI converts speech to text" },
+        { step: "3", title: "Download", desc: "Copy or download your transcript" },
+      ],
+    },
+
     pricing: {
       badge: "PRICING",
       title: "Choose the Right Plan",
@@ -616,13 +644,13 @@ const t = {
         {
           label: "Transkript",
           description: "Ses ve video dosyalarından otomatik metin çıkarın.",
-          available: false,
+          available: true,
           tag: "Yakında",
         },
         {
           label: "Arka Plan Sil",
           description: "Fotoğraflardan arka planı tek tıkla anında kaldırın.",
-          available: false,
+          available: true,
           tag: "Yakında",
         },
         {
@@ -806,6 +834,34 @@ const t = {
         { step: "3", title: "İndir", desc: "Sadece vokali al" },
       ],
     },
+
+    transcript: {
+      badge: "AI TRANSKRİPT",
+      title: "TRANSKRİPT",
+      subtitle: "Ses ve video dosyalarından otomatik metin çıkarın. Whisper AI destekli.",
+      breadcrumbHome: "← Araçlar",
+      breadcrumbCurrent: "Transkript",
+      dropTitle: "SES / VİDEONUZU BURAYA SÜRÜKLEYIN",
+      dropSub: "ya da tıklayıp seçin",
+      dropFormats: "MP3, MP4, WAV, M4A, OGG, FLAC — Maks. 100 MB",
+      processBtn: "Transkript Et →",
+      aiSubtitle: "AI dosyanızı işliyor…",
+      done: "Hazır! 🎉",
+      doneSub: "Transkriptiniz hazır",
+      copyBtn: "Metni Kopyala",
+      copied: "Kopyalandı!",
+      downloadTxt: ".TXT İndir",
+      downloadSrt: ".SRT İndir",
+      newFile: "🔄 Yeni Dosya",
+      detectedLang: "Algılanan dil",
+      howItWorks: "Nasıl Çalışır?",
+      steps: [
+        { step: "1", title: "Yükle", desc: "Ses veya video dosyanı seç" },
+        { step: "2", title: "AI Çevirir", desc: "Whisper AI sesi metne dönüştürür" },
+        { step: "3", title: "İndir", desc: "Transkriptini kopyala veya indir" },
+      ],
+    },
+
     pricing: {
       badge: "FİYATLANDIRMA",
       title: "Sana Uygun Planı Seç",
@@ -1358,6 +1414,34 @@ const t = {
         { step: "3", title: "نزّل", desc: "احصل على الصوت ناصعاً" },
       ],
     },
+
+    transcript: {
+      badge: "نسخ AI",
+      title: "النسخ التلقائي",
+      subtitle: "استخرج النص تلقائياً من ملفات الصوت والفيديو. مدعوم بـ Whisper AI.",
+      breadcrumbHome: "← الأدوات",
+      breadcrumbCurrent: "النسخ",
+      dropTitle: "اسحب وأفلت ملف الصوت / الفيديو هنا",
+      dropSub: "أو انقر للاختيار",
+      dropFormats: "MP3, MP4, WAV, M4A, OGG, FLAC — حتى 100 ميجابايت",
+      processBtn: "نسخ ←",
+      aiSubtitle: "الذكاء الاصطناعي يعالج ملفك…",
+      done: "تم! 🎉",
+      doneSub: "نصك جاهز",
+      copyBtn: "نسخ النص",
+      copied: "تم النسخ!",
+      downloadTxt: "تنزيل .TXT",
+      downloadSrt: "تنزيل .SRT",
+      newFile: "🔄 ملف جديد",
+      detectedLang: "اللغة المكتشفة",
+      howItWorks: "كيف يعمل؟",
+      steps: [
+        { step: "1", title: "رفع", desc: "اختر ملف الصوت أو الفيديو" },
+        { step: "2", title: "AI ينسخ", desc: "Whisper AI يحول الكلام إلى نص" },
+        { step: "3", title: "تنزيل", desc: "انسخ أو نزّل النص" },
+      ],
+    },
+
     pricing: {
       badge: "الأسعار",
       title: "اختر الخطة الأنسب لك",
@@ -1706,13 +1790,13 @@ const t = {
         {
           label: "رونویسی",
           description: "استخراج خودکار متن از فایل‌های صوتی و تصویری.",
-          available: false,
+          available: true,
           tag: "به زودی",
         },
         {
           label: "حذف پس‌زمینه",
           description: "حذف پس‌زمینه عکس‌ها با یک کلیک.",
-          available: false,
+          available: true,
           tag: "به زودی",
         },
         {
@@ -1899,6 +1983,34 @@ const t = {
         { step: "۳", title: "دانلود کن", desc: "فقط صدا را دریافت کن" },
       ],
     },
+
+    transcript: {
+      badge: "رونویسی AI",
+      title: "رونویسی",
+      subtitle: "متن را به‌طور خودکار از فایل‌های صوتی و تصویری استخراج کنید.",
+      breadcrumbHome: "← ابزارها",
+      breadcrumbCurrent: "رونویسی",
+      dropTitle: "فایل صوتی / تصویری را اینجا بکشید",
+      dropSub: "یا کلیک کنید",
+      dropFormats: "MP3, MP4, WAV, M4A — حداکثر ۱۰۰ مگابایت",
+      processBtn: "رونویسی ←",
+      aiSubtitle: "AI فایل شما را پردازش می‌کند…",
+      done: "آماده! 🎉",
+      doneSub: "رونوشت شما آماده است",
+      copyBtn: "کپی متن",
+      copied: "کپی شد!",
+      downloadTxt: "دانلود .TXT",
+      downloadSrt: "دانلود .SRT",
+      newFile: "🔄 فایل جدید",
+      detectedLang: "زبان تشخیص داده شده",
+      howItWorks: "چگونه کار می‌کند؟",
+      steps: [
+        { step: "1", title: "آپلود", desc: "فایل صوتی یا تصویری را انتخاب کنید" },
+        { step: "2", title: "AI رونویسی می‌کند", desc: "Whisper AI گفتار را به متن تبدیل می‌کند" },
+        { step: "3", title: "دانلود", desc: "رونوشت را کپی یا دانلود کنید" },
+      ],
+    },
+
     pricing: {
       badge: "قیمت‌گذاری",
       title: "طرح مناسب خود را انتخاب کن",
@@ -2463,6 +2575,34 @@ const t = {
         },
       ],
     },
+
+    transcript: {
+      badge: "TRANSCRIPTION AI",
+      title: "TRANSCRIPTION",
+      subtitle: "Extrayez automatiquement le texte des fichiers audio et vidéo. Propulsé par Whisper AI.",
+      breadcrumbHome: "← Outils",
+      breadcrumbCurrent: "Transcription",
+      dropTitle: "DÉPOSEZ VOTRE FICHIER AUDIO / VIDÉO ICI",
+      dropSub: "ou cliquez pour sélectionner",
+      dropFormats: "MP3, MP4, WAV, M4A, OGG, FLAC — Max. 100 Mo",
+      processBtn: "Transcrire →",
+      aiSubtitle: "L'IA traite votre fichier…",
+      done: "Prêt ! 🎉",
+      doneSub: "Votre transcription est prête",
+      copyBtn: "Copier le texte",
+      copied: "Copié !",
+      downloadTxt: "Télécharger .TXT",
+      downloadSrt: "Télécharger .SRT",
+      newFile: "🔄 Nouveau fichier",
+      detectedLang: "Langue détectée",
+      howItWorks: "Comment ça marche ?",
+      steps: [
+        { step: "1", title: "Importer", desc: "Sélectionnez votre fichier audio ou vidéo" },
+        { step: "2", title: "L'IA transcrit", desc: "Whisper AI convertit la parole en texte" },
+        { step: "3", title: "Télécharger", desc: "Copiez ou téléchargez votre transcription" },
+      ],
+    },
+
     pricing: {
       badge: "TARIFS",
       title: "Choisissez le bon plan",
@@ -2831,7 +2971,7 @@ const t = {
           label: "Transkription",
           description:
             "Extrahiere automatisch Text aus Audio- und Videodateien.",
-          available: false,
+          available: true,
           tag: "Bald",
         },
         {
@@ -3024,6 +3164,34 @@ const t = {
         { step: "3", title: "Herunterladen", desc: "Nur die Vocals erhalten" },
       ],
     },
+
+    transcript: {
+      badge: "AI TRANSKRIPTION",
+      title: "TRANSKRIPTION",
+      subtitle: "Extrahieren Sie automatisch Text aus Audio- und Videodateien. Powered by Whisper AI.",
+      breadcrumbHome: "← Werkzeuge",
+      breadcrumbCurrent: "Transkription",
+      dropTitle: "AUDIO / VIDEO HIER ABLEGEN",
+      dropSub: "oder klicken zum Auswählen",
+      dropFormats: "MP3, MP4, WAV, M4A, OGG, FLAC — Max. 100 MB",
+      processBtn: "Transkribieren →",
+      aiSubtitle: "KI verarbeitet Ihre Datei…",
+      done: "Fertig! 🎉",
+      doneSub: "Ihre Transkription ist bereit",
+      copyBtn: "Text kopieren",
+      copied: "Kopiert!",
+      downloadTxt: ".TXT herunterladen",
+      downloadSrt: ".SRT herunterladen",
+      newFile: "🔄 Neue Datei",
+      detectedLang: "Erkannte Sprache",
+      howItWorks: "Wie funktioniert es?",
+      steps: [
+        { step: "1", title: "Hochladen", desc: "Audio- oder Videodatei auswählen" },
+        { step: "2", title: "KI transkribiert", desc: "Whisper AI wandelt Sprache in Text um" },
+        { step: "3", title: "Herunterladen", desc: "Transkription kopieren oder herunterladen" },
+      ],
+    },
+
     pricing: {
       badge: "PREISE",
       title: "Das richtige Abo wählen",
@@ -3397,7 +3565,7 @@ const t = {
           label: "Transcripción",
           description:
             "Extrae texto automáticamente de archivos de audio y video.",
-          available: false,
+          available: true,
           tag: "Pronto",
         },
         {
@@ -3590,6 +3758,34 @@ const t = {
         { step: "3", title: "Descarga", desc: "Obtén solo las voces" },
       ],
     },
+
+    transcript: {
+      badge: "TRANSCRIPCIÓN AI",
+      title: "TRANSCRIPCIÓN",
+      subtitle: "Extrae texto automáticamente de archivos de audio y vídeo. Impulsado por Whisper AI.",
+      breadcrumbHome: "← Herramientas",
+      breadcrumbCurrent: "Transcripción",
+      dropTitle: "ARRASTRA TU AUDIO / VÍDEO AQUÍ",
+      dropSub: "o haz clic para seleccionar",
+      dropFormats: "MP3, MP4, WAV, M4A, OGG, FLAC — Máx. 100 MB",
+      processBtn: "Transcribir →",
+      aiSubtitle: "La IA procesa tu archivo…",
+      done: "¡Listo! 🎉",
+      doneSub: "Tu transcripción está lista",
+      copyBtn: "Copiar texto",
+      copied: "¡Copiado!",
+      downloadTxt: "Descargar .TXT",
+      downloadSrt: "Descargar .SRT",
+      newFile: "🔄 Nuevo archivo",
+      detectedLang: "Idioma detectado",
+      howItWorks: "¿Cómo funciona?",
+      steps: [
+        { step: "1", title: "Subir", desc: "Selecciona tu archivo de audio o vídeo" },
+        { step: "2", title: "IA transcribe", desc: "Whisper AI convierte voz en texto" },
+        { step: "3", title: "Descargar", desc: "Copia o descarga tu transcripción" },
+      ],
+    },
+
     pricing: {
       badge: "PRECIOS",
       title: "Elige el plan adecuado",
@@ -3961,7 +4157,7 @@ const t = {
         {
           label: "Trascrizione",
           description: "Estrai automaticamente testo da file audio e video.",
-          available: false,
+          available: true,
           tag: "Presto",
         },
         {
@@ -4159,6 +4355,34 @@ const t = {
         { step: "3", title: "Scarica", desc: "Ottieni solo le voci" },
       ],
     },
+
+    transcript: {
+      badge: "TRASCRIZIONE AI",
+      title: "TRASCRIZIONE",
+      subtitle: "Estrai automaticamente il testo da file audio e video. Powered by Whisper AI.",
+      breadcrumbHome: "← Strumenti",
+      breadcrumbCurrent: "Trascrizione",
+      dropTitle: "TRASCINA QUI IL TUO AUDIO / VIDEO",
+      dropSub: "o clicca per selezionare",
+      dropFormats: "MP3, MP4, WAV, M4A, OGG, FLAC — Max. 100 MB",
+      processBtn: "Trascrivi →",
+      aiSubtitle: "L'IA elabora il tuo file…",
+      done: "Pronto! 🎉",
+      doneSub: "La tua trascrizione è pronta",
+      copyBtn: "Copia testo",
+      copied: "Copiato!",
+      downloadTxt: "Scarica .TXT",
+      downloadSrt: "Scarica .SRT",
+      newFile: "🔄 Nuovo file",
+      detectedLang: "Lingua rilevata",
+      howItWorks: "Come funziona?",
+      steps: [
+        { step: "1", title: "Carica", desc: "Seleziona il tuo file audio o video" },
+        { step: "2", title: "AI trascrive", desc: "Whisper AI converte il parlato in testo" },
+        { step: "3", title: "Scarica", desc: "Copia o scarica la trascrizione" },
+      ],
+    },
+
     pricing: {
       badge: "PREZZI",
       title: "Scegli il piano giusto",
