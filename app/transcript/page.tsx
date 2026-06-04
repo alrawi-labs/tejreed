@@ -12,6 +12,7 @@ type Stage = "idle" | "processing" | "done" | "error";
 const API_BASE = process.env.NEXT_PUBLIC_TRANSCRIPT_API_URL ?? "";
 const API_KEY  = process.env.NEXT_PUBLIC_TRANSCRIPT_API_KEY ?? "";
 
+
 interface TranscriptResult {
   metin: string;
   dil: string;
