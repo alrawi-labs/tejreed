@@ -8,9 +8,6 @@ import { useLang } from "@/i18n/LangContext";
 
 type Stage = "idle" | "processing" | "done" | "error";
 
-
-
-
 interface TranscriptResult {
   metin: string;
   dil: string;
