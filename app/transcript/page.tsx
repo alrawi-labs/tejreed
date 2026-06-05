@@ -116,6 +116,7 @@ export default function TranscriptPage() {
     setProgress(100);
   };
 
+  
   const handleFile = useCallback(async (file: File) => {
   if (!file) return;
   setFileName(file.name);
