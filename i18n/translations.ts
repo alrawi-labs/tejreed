@@ -119,7 +119,7 @@ const t = {
       transcribeLang: "LANGUAGE",
       transcribeLangAuto: "Auto-detect",
       transcribeInfo:
-        "Whisper AI will transcribe speech in 99 languages with timestamps.",
+        "AI will transcribe speech in 99 languages with timestamps.",
       transcribeCompleteTitle: "Transcription Complete",
       transcribeDetectedLang: "Detected language",
       transcribeSegments: "SEGMENTS",
@@ -257,7 +257,7 @@ const t = {
     transcript: {
       badge: "AI TRANSCRIPT",
       title: "TRANSCRIPT",
-      subtitle: "Automatically extract text from audio and video files. Powered by Whisper AI.",
+      subtitle: "Automatically extract text from audio and video files. Powered by AI.",
       breadcrumbHome: "← Tools",
       breadcrumbCurrent: "Transcript",
       dropTitle: "DRAG & DROP YOUR AUDIO / VIDEO HERE",
@@ -276,7 +276,7 @@ const t = {
       howItWorks: "How It Works?",
       steps: [
         { step: "1", title: "Upload", desc: "Select your audio or video file" },
-        { step: "2", title: "AI Transcribes", desc: "Whisper AI converts speech to text" },
+        { step: "2", title: "AI Transcribes", desc: "AI converts speech to text" },
         { step: "3", title: "Download", desc: "Copy or download your transcript" },
       ],
     },
@@ -713,7 +713,7 @@ const t = {
       transcribeLang: "DİL",
       transcribeLangAuto: "Otomatik algıla",
       transcribeInfo:
-        "Whisper AI, 99 dilde zaman damgasıyla konuşmayı metne çevirir.",
+        "AI, 99 dilde zaman damgasıyla konuşmayı metne çevirir.",
       transcribeCompleteTitle: "Transkript Tamamlandı",
       transcribeDetectedLang: "Algılanan dil",
       transcribeSegments: "SEGMENTLER",
@@ -838,7 +838,7 @@ const t = {
     transcript: {
       badge: "AI TRANSKRİPT",
       title: "TRANSKRİPT",
-      subtitle: "Ses ve video dosyalarından otomatik metin çıkarın. Whisper AI destekli.",
+      subtitle: "Ses ve video dosyalarından otomatik metin çıkarın. AI destekli.",
       breadcrumbHome: "← Araçlar",
       breadcrumbCurrent: "Transkript",
       dropTitle: "SES / VİDEONUZU BURAYA SÜRÜKLEYIN",
@@ -857,7 +857,7 @@ const t = {
       howItWorks: "Nasıl Çalışır?",
       steps: [
         { step: "1", title: "Yükle", desc: "Ses veya video dosyanı seç" },
-        { step: "2", title: "AI Çevirir", desc: "Whisper AI sesi metne dönüştürür" },
+        { step: "2", title: "AI Çevirir", desc: "AI sesi metne dönüştürür" },
         { step: "3", title: "İndir", desc: "Transkriptini kopyala veya indir" },
       ],
     },
@@ -1290,7 +1290,7 @@ const t = {
       transcribeLang: "اللغة",
       transcribeLangAuto: "كشف تلقائي",
       transcribeInfo:
-        "يُفرِّغ Whisper AI المحتوى الكلامي في 99 لغة مع طوابع زمنية دقيقة.",
+        "يُفرِّغ AI المحتوى الكلامي في 99 لغة مع طوابع زمنية دقيقة.",
       transcribeCompleteTitle: "اكتمل النسخ",
       transcribeDetectedLang: "اللغة المكتشفة",
       transcribeSegments: "المقاطع",
@@ -1416,9 +1416,9 @@ const t = {
     },
 
     transcript: {
-      badge: "نسخ AI",
-      title: "النسخ التلقائي",
-      subtitle: "استخرج النص تلقائياً من ملفات الصوت والفيديو. مدعوم بـ Whisper AI.",
+      badge: "استخراج النصوص بالذكاء الاصطناعي",
+      title: "استخراج النص من الصوت",
+      subtitle: "استخرج النص تلقائياً من ملفات الصوت والفيديو. مدعوم بالذكاء الاصطناعي.",
       breadcrumbHome: "← الأدوات",
       breadcrumbCurrent: "النسخ",
       dropTitle: "اسحب وأفلت ملف الصوت / الفيديو هنا",
@@ -1437,7 +1437,7 @@ const t = {
       howItWorks: "كيف يعمل؟",
       steps: [
         { step: "1", title: "رفع", desc: "اختر ملف الصوت أو الفيديو" },
-        { step: "2", title: "AI ينسخ", desc: "Whisper AI يحول الكلام إلى نص" },
+        { step: "2", title: "تجريد يستخرج", desc: "تجريد يحول الى النص" },
         { step: "3", title: "تنزيل", desc: "انسخ أو نزّل النص" },
       ],
     },
@@ -1856,7 +1856,7 @@ const t = {
       transcribeLang: "زبان",
       transcribeLangAuto: "تشخیص خودکار",
       transcribeInfo:
-        "Whisper AI گفتار را در ۹۹ زبان با مهر زمانی رونویسی می‌کند.",
+        "AI گفتار را در ۹۹ زبان با مهر زمانی رونویسی می‌کند.",
       transcribeCompleteTitle: "رونویسی کامل شد",
       transcribeDetectedLang: "زبان تشخیص داده‌شده",
       transcribeSegments: "بخش‌ها",
@@ -2006,7 +2006,7 @@ const t = {
       howItWorks: "چگونه کار می‌کند؟",
       steps: [
         { step: "1", title: "آپلود", desc: "فایل صوتی یا تصویری را انتخاب کنید" },
-        { step: "2", title: "AI رونویسی می‌کند", desc: "Whisper AI گفتار را به متن تبدیل می‌کند" },
+        { step: "2", title: "AI رونویسی می‌کند", desc: "AI گفتار را به متن تبدیل می‌کند" },
         { step: "3", title: "دانلود", desc: "رونوشت را کپی یا دانلود کنید" },
       ],
     },
@@ -2443,7 +2443,7 @@ const t = {
       transcribeLang: "LANGUE",
       transcribeLangAuto: "Détection auto",
       transcribeInfo:
-        "Whisper AI transcrit la parole en 99 langues avec horodatage.",
+        "AI transcrit la parole en 99 langues avec horodatage.",
       transcribeCompleteTitle: "Transcription terminée",
       transcribeDetectedLang: "Langue détectée",
       transcribeSegments: "SEGMENTS",
@@ -2579,7 +2579,7 @@ const t = {
     transcript: {
       badge: "TRANSCRIPTION AI",
       title: "TRANSCRIPTION",
-      subtitle: "Extrayez automatiquement le texte des fichiers audio et vidéo. Propulsé par Whisper AI.",
+      subtitle: "Extrayez automatiquement le texte des fichiers audio et vidéo. Propulsé par AI.",
       breadcrumbHome: "← Outils",
       breadcrumbCurrent: "Transcription",
       dropTitle: "DÉPOSEZ VOTRE FICHIER AUDIO / VIDÉO ICI",
@@ -2598,7 +2598,7 @@ const t = {
       howItWorks: "Comment ça marche ?",
       steps: [
         { step: "1", title: "Importer", desc: "Sélectionnez votre fichier audio ou vidéo" },
-        { step: "2", title: "L'IA transcrit", desc: "Whisper AI convertit la parole en texte" },
+        { step: "2", title: "L'IA transcrit", desc: "AI convertit la parole en texte" },
         { step: "3", title: "Télécharger", desc: "Copiez ou téléchargez votre transcription" },
       ],
     },
@@ -3040,7 +3040,7 @@ const t = {
       transcribeLang: "SPRACHE",
       transcribeLangAuto: "Automatisch erkennen",
       transcribeInfo:
-        "Whisper KI transkribiert Sprache in 99 Sprachen mit Zeitstempeln.",
+        "KI transkribiert Sprache in 99 Sprachen mit Zeitstempeln.",
       transcribeCompleteTitle: "Transkription abgeschlossen",
       transcribeDetectedLang: "Erkannte Sprache",
       transcribeSegments: "SEGMENTE",
@@ -3168,7 +3168,7 @@ const t = {
     transcript: {
       badge: "AI TRANSKRIPTION",
       title: "TRANSKRIPTION",
-      subtitle: "Extrahieren Sie automatisch Text aus Audio- und Videodateien. Powered by Whisper AI.",
+      subtitle: "Extrahieren Sie automatisch Text aus Audio- und Videodateien. Powered by AI.",
       breadcrumbHome: "← Werkzeuge",
       breadcrumbCurrent: "Transkription",
       dropTitle: "AUDIO / VIDEO HIER ABLEGEN",
@@ -3187,7 +3187,7 @@ const t = {
       howItWorks: "Wie funktioniert es?",
       steps: [
         { step: "1", title: "Hochladen", desc: "Audio- oder Videodatei auswählen" },
-        { step: "2", title: "KI transkribiert", desc: "Whisper AI wandelt Sprache in Text um" },
+        { step: "2", title: "KI transkribiert", desc: "AI wandelt Sprache in Text um" },
         { step: "3", title: "Herunterladen", desc: "Transkription kopieren oder herunterladen" },
       ],
     },
@@ -3634,7 +3634,7 @@ const t = {
       transcribeLang: "IDIOMA",
       transcribeLangAuto: "Detección automática",
       transcribeInfo:
-        "Whisper AI transcribirá el habla en 99 idiomas con marcas de tiempo.",
+        "AI transcribirá el habla en 99 idiomas con marcas de tiempo.",
       transcribeCompleteTitle: "Transcripción completa",
       transcribeDetectedLang: "Idioma detectado",
       transcribeSegments: "SEGMENTOS",
@@ -3762,7 +3762,7 @@ const t = {
     transcript: {
       badge: "TRANSCRIPCIÓN AI",
       title: "TRANSCRIPCIÓN",
-      subtitle: "Extrae texto automáticamente de archivos de audio y vídeo. Impulsado por Whisper AI.",
+      subtitle: "Extrae texto automáticamente de archivos de audio y vídeo. Impulsado por AI.",
       breadcrumbHome: "← Herramientas",
       breadcrumbCurrent: "Transcripción",
       dropTitle: "ARRASTRA TU AUDIO / VÍDEO AQUÍ",
@@ -3781,7 +3781,7 @@ const t = {
       howItWorks: "¿Cómo funciona?",
       steps: [
         { step: "1", title: "Subir", desc: "Selecciona tu archivo de audio o vídeo" },
-        { step: "2", title: "IA transcribe", desc: "Whisper AI convierte voz en texto" },
+        { step: "2", title: "IA transcribe", desc: "AI convierte voz en texto" },
         { step: "3", title: "Descargar", desc: "Copia o descarga tu transcripción" },
       ],
     },
@@ -4227,7 +4227,7 @@ const t = {
       transcribeLang: "LINGUA",
       transcribeLangAuto: "Rilevamento automatico",
       transcribeInfo:
-        "Whisper IA trascrive il parlato in 99 lingue con timestamp.",
+        "IA trascrive il parlato in 99 lingue con timestamp.",
       transcribeCompleteTitle: "Trascrizione completata",
       transcribeDetectedLang: "Lingua rilevata",
       transcribeSegments: "SEGMENTI",
@@ -4359,7 +4359,7 @@ const t = {
     transcript: {
       badge: "TRASCRIZIONE AI",
       title: "TRASCRIZIONE",
-      subtitle: "Estrai automaticamente il testo da file audio e video. Powered by Whisper AI.",
+      subtitle: "Estrai automaticamente il testo da file audio e video. Powered by AI.",
       breadcrumbHome: "← Strumenti",
       breadcrumbCurrent: "Trascrizione",
       dropTitle: "TRASCINA QUI IL TUO AUDIO / VIDEO",
@@ -4378,7 +4378,7 @@ const t = {
       howItWorks: "Come funziona?",
       steps: [
         { step: "1", title: "Carica", desc: "Seleziona il tuo file audio o video" },
-        { step: "2", title: "AI trascrive", desc: "Whisper AI converte il parlato in testo" },
+        { step: "2", title: "AI trascrive", desc: "AI converte il parlato in testo" },
         { step: "3", title: "Scarica", desc: "Copia o scarica la trascrizione" },
       ],
     },
