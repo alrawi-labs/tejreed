@@ -10,8 +10,6 @@ import StatsSection from "@/components/StatsSection";
 type Tab = "file" | "youtube";
 type Stage = "idle" | "processing" | "done" | "error";
 
-const API_BASE = "https://yasir723-tejreed.hf.space";
-
 interface ProgressStep {
   icon: string;
   text: string;
@@ -171,7 +169,7 @@ export default function MusicRemoverPage() {
   // ── SSE ─────────────────────────────────────────────────────────────────
   const connectSSE = useCallback(() => {
     if (sseRef.current) sseRef.current.close();
-    const es = new EventSource(`${API_BASE}/api/progress`);
+    const es = new EventSource(`/proxy/music-remover/progress`);
     es.onmessage = (e) => {
       try {
         const step: ProgressStep = JSON.parse(e.data);
@@ -197,7 +195,7 @@ export default function MusicRemoverPage() {
     try {
       const fd = new FormData();
       fd.append("url", url);
-      const res = await fetch(`${API_BASE}/api/get-youtube-info`, {
+      const res = await fetch(`/proxy/music-remover/get-youtube-info`, {
         method: "POST",
         body: fd,
       });
@@ -222,7 +220,7 @@ export default function MusicRemoverPage() {
       formData.append("file", file);
 
       try {
-        const res = await fetch(`${API_BASE}/api/split-audio`, {
+        const res = await fetch(`/proxy/music-remover/split-audio`, {
           method: "POST",
           body: formData,
         });
@@ -281,7 +279,7 @@ export default function MusicRemoverPage() {
     fd.append("url", youtubeUrl.trim());
 
     try {
-      const res = await fetch(`${API_BASE}/api/process-youtube`, {
+      const res = await fetch(`/proxy/music-remover/process-youtube`, {
         method: "POST",
         body: fd,
       });
