@@ -5,7 +5,6 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useLang } from "@/i18n/LangContext";
-import StatsSection from "@/components/StatsSection";
 
 type Stage = "idle" | "processing" | "done" | "error";
 
@@ -118,38 +117,37 @@ export default function TranscriptPage() {
   };
 
   const handleFile = useCallback(async (file: File) => {
-    if (!file) return;
-    setFileName(file.name);
-    setStage("processing");
-    setErrorMsg("");
-    setResult(null);
-    startFakeProgress();
+  if (!file) return;
+  setFileName(file.name);
+  setStage("processing");
+  setErrorMsg("");
+  setResult(null);
+  startFakeProgress();
 
-    const formData = new FormData();
-    formData.append("dosya", file);
+  const formData = new FormData();
+  formData.append("dosya", file);
+  try {
+    const res = await fetch("/proxy/transkript", {
+  method: "POST",
+  body: formData,
+});
 
-    try {
-      const res = await fetch("/proxy/transkript", {
-        method: "POST",
-        body: formData,
-      });
-
-      stopFakeProgress();
-
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({ detail: "Unknown error" }));
-        throw new Error(err.detail ?? `HTTP ${res.status}`);
-      }
-
-      const data: TranscriptResult = await res.json();
-      setResult(data);
-      setStage("done");
-    } catch (err: unknown) {
-      stopFakeProgress();
-      setErrorMsg(err instanceof Error ? err.message : "An error occurred");
-      setStage("error");
+    stopFakeProgress();
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ detail: "Unknown error" }));
+      throw new Error(err.detail ?? `HTTP ${res.status}`);
     }
-  }, []);
+
+    const data: TranscriptResult = await res.json();
+
+    setResult(data);
+    setStage("done");
+  } catch (err: unknown) {
+    stopFakeProgress();
+    setErrorMsg(err instanceof Error ? err.message : "An error occurred");
+    setStage("error");
+  }
+}, []);
 
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
@@ -459,7 +457,6 @@ export default function TranscriptPage() {
             </div>
           )}
 
-          <StatsSection />
         </div>
       </main>
 
