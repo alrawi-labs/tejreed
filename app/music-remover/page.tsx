@@ -169,7 +169,7 @@ export default function MusicRemoverPage() {
   // ── SSE ─────────────────────────────────────────────────────────────────
   const connectSSE = useCallback(() => {
     if (sseRef.current) sseRef.current.close();
-    const es = new EventSource(`/proxy/music-remover/progress`);
+    const es = new EventSource(`https://yasir723-tejreed.hf.space/api/progress`);
     es.onmessage = (e) => {
       try {
         const step: ProgressStep = JSON.parse(e.data);
@@ -195,7 +195,7 @@ export default function MusicRemoverPage() {
     try {
       const fd = new FormData();
       fd.append("url", url);
-      const res = await fetch(`/proxy/music-remover/get-youtube-info`, {
+      const res = await fetch(`https://yasir723-tejreed.hf.space/api/get-youtube-info`, {
         method: "POST",
         body: fd,
       });
@@ -279,7 +279,7 @@ export default function MusicRemoverPage() {
     fd.append("url", youtubeUrl.trim());
 
     try {
-      const res = await fetch(`/proxy/music-remover/process-youtube`, {
+      const res = await fetch(`https://yasir723-tejreed.hf.space/api/process-youtube`, {
         method: "POST",
         body: fd,
       });
