@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
 
   const formData = await req.formData();
 
-  const res = await fetch(`https://yasir723-tejreed.hf.space/api/split-audio`, {
+   const res = await fetch(`${API_BASE}/api/split-audio`, {
     method: "POST",
     body: formData,
     signal: AbortSignal.timeout(600_000),
