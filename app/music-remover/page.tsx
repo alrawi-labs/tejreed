@@ -220,7 +220,7 @@ export default function MusicRemoverPage() {
       formData.append("file", file);
 
       try {
-        const res = await fetch(`/proxy/music-remover/split-audio`, {
+        const res = await fetch(`https://yasir723-tejreed.hf.space/api/split-audio`, {
           method: "POST",
           body: formData,
         });
