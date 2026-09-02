@@ -128,7 +128,7 @@ export default function TranscriptPage() {
         const res = await fetch("https://yasir723-tejreed-transkript.hf.space/transkript", {
         method: "POST",
         headers: {
-          "X-API-Key": process.env.TRANSCRIPT_API_KEY!,
+          "X-API-Key": process.env.TRANSKRIPT_API_KEY!,
         },
         body: formData,
       });
