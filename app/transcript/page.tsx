@@ -125,7 +125,7 @@ export default function TranscriptPage() {
   const formData = new FormData();
   formData.append("dosya", file);
   try {
-    const res = await fetch("https://yasir723-tejreed-transkript.hf.space/api/transkript", {
+    const res = await fetch("https://yasir723-tejreed-transkript.hf.space/transkript", {
       method: "POST",
       body: formData,
     });
